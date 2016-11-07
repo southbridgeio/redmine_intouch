@@ -16,7 +16,7 @@ module Intouch
                 if Intouch.active_protocols.include? 'telegram'
 
                   if (details.pluck(:prop_key) & %w(priority_id status_id)).present?
-                    IntouchSender.send_live_telegram_group_message(issue.id)
+                    IntouchSender.send_live_telegram_group_message(issue.id, new_alarm)
                   end
 
                   IntouchSender.send_live_telegram_message(issue.id)
@@ -25,6 +25,10 @@ module Intouch
                 IntouchSender.send_live_email_message(issue.id) if Intouch.active_protocols.include? 'email'
               end
             end
+          end
+
+          def new_alarm
+            issue.alarm? && details.find_by(prop_key: 'priority_id').present?
           end
         end
       end

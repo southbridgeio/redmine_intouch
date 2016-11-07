@@ -21,7 +21,7 @@ class IntouchSender
     TelegramLiveSenderWorker.perform_in(5.seconds, issue_id)
   end
 
-  def self.send_live_telegram_group_message(issue_id)
-    TelegramGroupLiveSenderWorker.perform_in(5.seconds, issue_id)
+  def self.send_live_telegram_group_message(issue_id, new_alarm = false)
+    TelegramGroupLiveSenderWorker.perform_in(5.seconds, issue_id, new_alarm)
   end
 end

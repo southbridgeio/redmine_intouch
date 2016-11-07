@@ -47,6 +47,7 @@ en:
             description: Specify which notifications and in which group should be sent
             only_unassigned: "Only unassigned"
             anytime: "Anytime (24/7)"
+            new_alarm_required: "Notify about new alarms"
           watchers:
             description: Specify which notifications should be sent to the watchers of the issue
         reminder:

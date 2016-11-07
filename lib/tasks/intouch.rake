@@ -57,7 +57,7 @@ namespace :intouch do
         bot.get_updates(fail_silently: false) do |message|
           begin
             next unless message.is_a?(Telegrammer::DataTypes::Message) # Update for telegrammer gem 0.8.0
-            if (message.text == '/start') || (message.text == '/update') || message.text.include?('/connect')
+            if (message.text == '/start') || (message.text == '/update') || message.text.to_s.include?('/connect')
               Intouch::TelegramBot.new(message).call
             elsif message.chat.id < 0
               chat = message.chat
@@ -74,7 +74,7 @@ namespace :intouch do
                 intouch_log.info "#{bot_name}: rename group title #{chat.title}"
               end
             end
-          rescue Exception => e
+          rescue StandardError => e
             intouch_log.error "UPDATE ERROR #{e.class}: #{e.message}\n#{e.backtrace.join("\n")}"
           end
         end
@@ -85,7 +85,7 @@ namespace :intouch do
         intouch_log.info 'Restarting...'
         retry
 
-      rescue Exception => e
+      rescue StandardError => e
         intouch_log.error "GLOBAL ERROR #{e.class}: #{e.message}\n#{e.backtrace.join("\n")}"
       end
     end
