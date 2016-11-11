@@ -49,6 +49,7 @@ namespace :intouch do
 
         intouch_log.info 'Telegram Bot: Connecting to telegram...'
         bot = Telegrammer::Bot.new(token)
+        bot.set_webhook('') # reset webhook
         bot_name = bot.me.username
 
         intouch_log.info "#{bot_name}: connected"
@@ -74,7 +75,7 @@ namespace :intouch do
                 intouch_log.info "#{bot_name}: rename group title #{chat.title}"
               end
             end
-          rescue StandardError => e
+          rescue Exception => e
             intouch_log.error "UPDATE ERROR #{e.class}: #{e.message}\n#{e.backtrace.join("\n")}"
           end
         end
@@ -85,7 +86,7 @@ namespace :intouch do
         intouch_log.info 'Restarting...'
         retry
 
-      rescue StandardError => e
+      rescue Exception => e
         intouch_log.error "GLOBAL ERROR #{e.class}: #{e.message}\n#{e.backtrace.join("\n")}"
       end
     end
