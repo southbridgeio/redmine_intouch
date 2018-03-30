@@ -208,7 +208,7 @@ module Intouch
 
             message += bold_for_alarm(updated_priority_text) if updated_details.include?('priority')
 
-            message += "\n#{I18n.t('field_status')}: #{updated_status_text}" if updated_details.include?('status_id')
+            message += "\n#{I18n.t('field_status')}: #{updated_status_text}" if updated_details.include?('status')
 
             message += "\n#{I18n.t('intouch.telegram_message.issue.updated_details')}: #{updated_details_text}" if updated_details_text.present?
 
