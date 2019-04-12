@@ -8,6 +8,9 @@
   <%= button_tag t('intouch.project.settings.common.copy'), class: 'copySettingsFromOtherTab' %>
 </div>
 
+<% priorities = IssuePriority.order(:position) %>
+<% statuses = IssueStatus.order(:position) %>
+
 <% TelegramGroupChat.find_each do |telegram_group| %>
   <% kind = dom_id(telegram_group) %>
   <h4><%= telegram_group.title %></h4>
@@ -30,7 +33,7 @@
     <thead>
     <tr>
       <th><%= t('field_status') %> \ <%= t('field_priority') %></th>
-      <% IssuePriority.order(:position).each do |priority| %>
+      <% priorities.each do |priority| %>
         <th>
           <%= check_box_tag "#{kind}_priority_#{priority.id}", '1', false, class: 'prioritySelectAll',
                             data:                                                 { kind: kind, priority_id: priority.id }
@@ -41,7 +44,7 @@
     </tr>
     </thead>
     <tbody>
-    <% IssueStatus.order(:position).each do |status| %>
+    <% statuses.each do |status| %>
       <tr>
         <th>
           <%= check_box_tag "#{kind}_status_#{status.id}", '1', false, class: 'statusSelectAll',
@@ -49,7 +52,7 @@
           %>
           <%= label_tag "#{kind}_status_#{status.id}", status.name %>
         </th>
-        <% IssuePriority.order(:position).each do |priority| %>
+        <% priorities.each do |priority| %>
 
           <td>
             <%= check_box_tag "intouch_settings[telegram_settings][groups][#{telegram_group.id}][#{status.id}][]", priority.id,
