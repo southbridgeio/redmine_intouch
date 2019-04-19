@@ -1,10 +1,15 @@
 class Intouch::TelegramBot < RedmineBots::Telegram::Bot
   def initialize(command)
     @logger = Logger.new(Rails.root.join('log/intouch', 'bot.log'))
-    @command = command.is_a?(Telegram::Bot::Types::Message) ? command : Telegram::Bot::Types::Update.new(command).message
+    @command = command.is_a?(Telegram::Bot::Types::Base) ? command : Telegram::Bot::Types::Update.new(command).message
   end
 
   def call
+    if command.is_a?(Telegram::Bot::Types::InlineQuery)
+      issue = Issue.find(command.data)
+      send_message(issue.description)
+    end
+
     group_create_process if !private_command? && group_chat.new_record?
     super
   end

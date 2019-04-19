@@ -20,7 +20,17 @@ class TelegramLiveSenderWorker
 
       logger.debug message
 
-      job = TelegramMessageSender.perform_async(telegram_account.telegram_id, message)
+      keyboard = Telegram::Bot::Types::InlineKeyboardMarkup.new(
+          inline_keyboard: [
+              [
+                  Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Описание', callback_data: "/preview_issue #{issue_id}"),
+              ]
+          ]
+      )
+
+      params = { reply_markup: keyboard }
+
+      job = TelegramMessageSender.perform_async(telegram_account.telegram_id, message, params)
 
       logger.debug job.inspect
     end

@@ -30,7 +30,7 @@ module Intouch
   end
 
   def self.handle_message(message)
-    Intouch::TelegramBot.new(message).call if message.is_a?(Telegram::Bot::Types::Message)
+    Intouch::TelegramBot.new(message).call
   end
 
   def self.available_recipients
