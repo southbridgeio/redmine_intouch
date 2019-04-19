@@ -1,8 +1,10 @@
 module Intouch
   @@mutex = Mutex.new
   @@protocols = {}
+  @@update_manager = UpdateManager.new
 
-  mattr_reader :protocols
+
+  mattr_reader :protocols, :update_manager
 
   def self.register_protocol(name, protocol)
     @@mutex.synchronize { @@protocols[name.to_s] = protocol }

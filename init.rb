@@ -27,6 +27,8 @@ Intouch.register_protocol('telegram', Intouch::Protocols::Telegram.new)
 Intouch.register_protocol('slack', Intouch::Protocols::Slack.new)
 Intouch.register_protocol('email', Intouch::Protocols::Email.new)
 
+Intouch.update_manager.on(Telegram::Bot::Types::InlineQuery, &Intouch::InlineHandler)
+
 
 Redmine::Plugin.register :redmine_intouch do
   name 'Redmine Intouch plugin'
