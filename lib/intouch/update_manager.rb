@@ -10,7 +10,7 @@ module Intouch
     end
 
     def dispatch(update)
-      @handlers[update.class].each { |handler| handler.call(update) }
+      @handlers.each { |type, handlers| handlers.each { |handler| handler.call(update) } if update.is_a?(type) }
     end
   end
 end

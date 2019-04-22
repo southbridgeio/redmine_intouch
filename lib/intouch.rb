@@ -6,6 +6,15 @@ module Intouch
 
   mattr_reader :protocols, :update_manager
 
+  def self.bootstrap
+    register_protocol('telegram', Intouch::Protocols::Telegram.new)
+    register_protocol('slack', Intouch::Protocols::Slack.new)
+    register_protocol('email', Intouch::Protocols::Email.new)
+
+    update_manager.on(Telegram::Bot::Types::CallbackQuery, &Intouch::PreviewHandler)
+    update_manager.on(Telegram::Bot::Types::Message, &Intouch::CommandHandler)
+  end
+
   def self.register_protocol(name, protocol)
     @@mutex.synchronize { @@protocols[name.to_s] = protocol }
   end
@@ -32,7 +41,7 @@ module Intouch
   end
 
   def self.handle_message(message)
-    Intouch::TelegramBot.new(message).call
+    update_manager.dispatch(message)
   end
 
   def self.available_recipients
