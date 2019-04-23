@@ -1,8 +1,16 @@
 module Intouch
   class PreviewHandler
-    extend ServiceInitializer
+    def self.call(*args)
+      api = Telegram::Bot::Api.new(Intouch.bot_token)
+      new(api, *args).call
+    end
 
-    def initialize(update)
+    def self.to_proc
+      proc { |*args| call(*args) }
+    end
+
+    def initialize(api, update)
+      @api = api
       @update = update
     end
 
@@ -14,7 +22,7 @@ module Intouch
 
     private
 
-    attr_reader :update
+    attr_reader :api, :update
 
     def raw_data
       update.data
@@ -42,20 +50,8 @@ module Intouch
       telegram_account&.user || User.anonymous
     end
 
-    def bot
-      @bot ||= Telegram::Bot::Client.new(Intouch.bot_token)
-    end
-
-    def api
-      bot.api
-    end
-
-    def sanitizer
-      Rails::Html::FullSanitizer.new
-    end
-
     def preview_text
-      sanitizer.sanitize(issue.description.presence || issue.journals.last.notes).truncate(200)
+      Text.normalize(issue)
     end
   end
 end
