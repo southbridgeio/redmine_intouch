@@ -61,10 +61,11 @@ class TelegramGroupLiveSenderWorker
           ]
       )
 
+      reply_markup = Setting.plugin_redmine_intouch['telegram_preview'] ? { reply_markup: keyboard } : {}
       RedmineBots::Telegram::Bot::MessageSender.call(message: message,
                                                      chat_id: -group.tid,
                                                      parse_mode: 'Markdown',
-                                                     reply_markup: keyboard)
+                                                     **reply_markup)
 
       logger.debug job.inspect
     end

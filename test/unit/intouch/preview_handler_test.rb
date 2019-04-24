@@ -1,5 +1,15 @@
 class Intouch::PreviewHandlerTest < ActiveSupport::TestCase
+  test 'should not respond when setting is turned off' do
+    Setting.expects('plugin_redmine_intouch').returns({})
+    api = mock
+    update = mock
+    handler = Intouch::PreviewHandler.new(api, update)
+    api.expects(:answer_callback_query).never
+    handler.call
+  end
+
   test 'should not respond to invalid data type' do
+    Setting.expects('plugin_redmine_intouch').returns({ 'telegram_preview' => 1 })
     api = mock
     update = mock
     update.stubs(:data).returns('{ "type": "invalid" }')
@@ -9,6 +19,7 @@ class Intouch::PreviewHandlerTest < ActiveSupport::TestCase
   end
 
   test 'should not respond when issue can not be found' do
+    Setting.expects('plugin_redmine_intouch').returns({ 'telegram_preview' => 1 })
     api = mock
     update = mock
     update.stubs(:data).returns('{ "type": "issue_preview", "issue_id": 1 }')
@@ -19,6 +30,7 @@ class Intouch::PreviewHandlerTest < ActiveSupport::TestCase
   end
 
   test 'should not respond when user is not allowed to view issues' do
+    Setting.expects('plugin_redmine_intouch').returns({ 'telegram_preview' => 1 })
     api = mock
     update = mock
     issue = mock
@@ -43,6 +55,7 @@ class Intouch::PreviewHandlerTest < ActiveSupport::TestCase
   end
 
   test 'should respond when everything is fine' do
+    Setting.expects('plugin_redmine_intouch').returns({ 'telegram_preview' => 1 })
     api = mock
     update = mock
     issue = mock

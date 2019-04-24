@@ -15,6 +15,7 @@ module Intouch
     end
 
     def call
+      return unless Setting.plugin_redmine_intouch['telegram_preview']
       return unless data[:type] == 'issue_preview' && issue && current_user.allowed_to?(:view_issues, project)
 
       api.answer_callback_query(callback_query_id: update.id, text: preview_text, show_alert: true, cache_time: 30)
