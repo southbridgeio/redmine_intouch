@@ -20,9 +20,19 @@ class TelegramLiveSenderWorker
 
       logger.debug message
 
-      job = TelegramMessageSender.perform_async(telegram_account.telegram_id, message)
+      keyboard = Telegram::Bot::Types::InlineKeyboardMarkup.new(
+          inline_keyboard: [
+              [
+                  Telegram::Bot::Types::InlineKeyboardButton.new(text: I18n.t('label_preview'),
+                                                                 callback_data: { type: 'issue_preview', issue_id: issue_id  }.to_json)
+              ]
+          ]
+      )
 
-      logger.debug job.inspect
+      RedmineBots::Telegram::Bot::MessageSender.call(message: message,
+                                                     chat_id: telegram_account.telegram_id,
+                                                     parse_mode: 'Markdown',
+                                                     reply_markup: keyboard)
     end
 
     logger.debug "FINISH for issue_id #{issue_id}"
