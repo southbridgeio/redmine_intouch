@@ -52,7 +52,19 @@ class TelegramGroupLiveSenderWorker
       logger.debug "group: #{group.inspect}"
       next unless group.tid.present?
 
-      job = TelegramMessageSender.perform_async(-group.tid, message)
+      keyboard = Telegram::Bot::Types::InlineKeyboardMarkup.new(
+          inline_keyboard: [
+              [
+                  Telegram::Bot::Types::InlineKeyboardButton.new(text: I18n.t('label_preview'),
+                                                                 callback_data: { type: 'issue_preview', issue_id: issue_id }.to_json)
+              ]
+          ]
+      )
+
+      RedmineBots::Telegram::Bot::MessageSender.call(message: message,
+                                                     chat_id: -group.tid,
+                                                     parse_mode: 'Markdown',
+                                                     reply_markup: keyboard)
 
       logger.debug job.inspect
     end
