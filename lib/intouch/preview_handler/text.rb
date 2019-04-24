@@ -3,7 +3,7 @@ class Intouch::PreviewHandler
     include ApplicationHelper
 
     def self.normalize(issue)
-      new(issue.description.presence || issue.journals.last.notes).normalized
+      new(issue.description.presence || issue.journals.last&.notes.presence || issue.subject).normalized
     end
 
     def initialize(raw_text)
