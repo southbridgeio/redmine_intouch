@@ -41,7 +41,8 @@ Redmine::Plugin.register :redmine_intouch do
     default: {
       'active_protocols' => %w(email),
       'work_day_from' => '10:00',
-      'work_day_to' => '18:00'
+      'work_day_to' => '18:00',
+      'telegram_preview' => '1'
     },
     partial: 'settings/intouch')
 
