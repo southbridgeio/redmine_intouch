@@ -1,6 +1,7 @@
 class Intouch::PreviewHandler
   class Text
     include ApplicationHelper
+    include ActionView::Helpers::SanitizeHelper
 
     def self.normalize(issue)
       new(issue.description.presence || issue.journals.last&.notes.presence || issue.subject).normalized
