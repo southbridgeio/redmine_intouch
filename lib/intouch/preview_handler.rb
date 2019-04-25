@@ -1,5 +1,11 @@
 module Intouch
   class PreviewHandler
+    class OutdatedQueryError
+      def self.===(e)
+        e.is_a?(Telegram::Bot::Exceptions::ResponseError) && e.message.include?('query is too old')
+      end
+    end
+
     def self.call(*args)
       api = Telegram::Bot::Api.new(Intouch.bot_token)
       new(api, *args).call
@@ -19,6 +25,8 @@ module Intouch
       return unless data[:type] == 'issue_preview' && issue && current_user.allowed_to?(:view_issues, project)
 
       api.answer_callback_query(callback_query_id: update.id, text: preview_text, show_alert: true, cache_time: 30)
+    rescue OutdatedQueryError
+      # skip
     end
 
     private
