@@ -29,7 +29,7 @@ class TelegramLiveSenderWorker
           ]
       )
 
-      reply_markup = Setting.plugin_redmine_intouch['telegram_preview'] ? { reply_markup: keyboard } : {}
+      reply_markup = Intouch.telegram_preview? ? { reply_markup: keyboard } : {}
       RedmineBots::Telegram::Bot::MessageSender.call(message: message,
                                                      chat_id: telegram_account.telegram_id,
                                                      parse_mode: 'Markdown',

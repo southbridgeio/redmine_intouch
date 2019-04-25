@@ -140,6 +140,10 @@ module Intouch
     "#{Setting['protocol']}://#{Setting['host_name']}/issues/#{issue_id}"
   end
 
+  def self.telegram_preview?
+    !!Setting.find_by_name(:plugin_redmine_intouch).value['telegram_preview']
+  end
+
   private
 
   def self.logger
