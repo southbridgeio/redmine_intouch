@@ -22,7 +22,7 @@ module Intouch
 
     def call
       return unless Intouch.telegram_preview?
-      return unless data[:type] == 'issue_preview' && issue && current_user.allowed_to?(:view_issues, project)
+      return unless data[:type] == 'issue_preview' && journal && current_user.allowed_to?(:view_issues, project)
 
       api.answer_callback_query(callback_query_id: update.id, text: preview_text, show_alert: true, cache_time: 30)
     rescue OutdatedQueryError
@@ -44,7 +44,11 @@ module Intouch
     end
 
     def issue
-      @issue ||= Issue.find_by(id: data[:issue_id])
+      journal.issue
+    end
+
+    def journal
+      @journal ||= Journal.find_by(id: data[:journal_id])
     end
 
     def project
@@ -60,7 +64,7 @@ module Intouch
     end
 
     def preview_text
-      Text.normalize(issue)
+      Text.normalize(journal)
     end
   end
 end

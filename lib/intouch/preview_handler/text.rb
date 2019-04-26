@@ -3,8 +3,9 @@ class Intouch::PreviewHandler
     include ApplicationHelper
     include ActionView::Helpers::SanitizeHelper
 
-    def self.normalize(issue)
-      new(issue.description.presence || issue.journals.last&.notes.presence || issue.subject).normalized
+    def self.normalize(journal)
+      issue = journal.issue
+      new(journal.notes.presence || issue&.description.presence || issue&.subject || '').normalized
     end
 
     def initialize(raw_text)

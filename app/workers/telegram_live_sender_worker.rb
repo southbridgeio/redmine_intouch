@@ -24,7 +24,7 @@ class TelegramLiveSenderWorker
           inline_keyboard: [
               [
                   Telegram::Bot::Types::InlineKeyboardButton.new(text: I18n.t('label_preview'),
-                                                                 callback_data: { type: 'issue_preview', issue_id: issue_id }.to_json)
+                                                                 callback_data: { type: 'issue_preview', journal_id: journal_id }.to_json)
               ]
           ]
       )
