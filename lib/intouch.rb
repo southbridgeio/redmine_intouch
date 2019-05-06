@@ -11,7 +11,7 @@ module Intouch
     register_protocol('slack', Intouch::Protocols::Slack.new)
     register_protocol('email', Intouch::Protocols::Email.new)
 
-    update_manager.on(Telegram::Bot::Types::CallbackQuery, &Intouch::PreviewHandler)
+    update_manager.on(Telegram::Bot::Types::CallbackQuery, &Intouch::Preview::Handler)
     update_manager.on(Telegram::Bot::Types::Message, &Intouch::CommandHandler)
   end
 

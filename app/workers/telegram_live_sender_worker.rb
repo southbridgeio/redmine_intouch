@@ -20,16 +20,7 @@ class TelegramLiveSenderWorker
 
       logger.debug message
 
-      keyboard = Telegram::Bot::Types::InlineKeyboardMarkup.new(
-          inline_keyboard: [
-              [
-                  Telegram::Bot::Types::InlineKeyboardButton.new(text: I18n.t('label_preview'),
-                                                                 callback_data: { type: 'issue_preview', journal_id: journal_id }.to_json)
-              ]
-          ]
-      )
-
-      reply_markup = Intouch.telegram_preview? ? { reply_markup: keyboard } : {}
+      reply_markup = Intouch.telegram_preview? ? { reply_markup: Intouch::Preview::KeyboardMarkup.new(issue_id, journal_id) } : {}
       RedmineBots::Telegram::Bot::MessageSender.call(message: message,
                                                      chat_id: telegram_account.telegram_id,
                                                      parse_mode: 'Markdown',
