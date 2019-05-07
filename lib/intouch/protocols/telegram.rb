@@ -4,7 +4,10 @@ module Intouch::Protocols
       issue = update.issue
       journal = update.journal
 
-      TelegramLiveSenderWorker.perform_in(5.seconds, issue.id, journal&.id, update.live_recipients.map(&:id))
+      update.live_recipients.each do |user|
+        TelegramLiveSenderWorker.perform_async(issue.id, journal&.id, user.id)
+      end
+
       TelegramGroupLiveSenderWorker.perform_in(5.seconds, issue.id, journal&.id) if need_group_message?(journal)
     end
 

@@ -52,11 +52,10 @@ class TelegramGroupLiveSenderWorker
       logger.debug "group: #{group.inspect}"
       next unless group.tid.present?
 
-      reply_markup = Intouch.telegram_preview? ? { reply_markup: Intouch::Preview::KeyboardMarkup.new(issue_id, journal_id) } : {}
       RedmineBots::Telegram::Bot::MessageSender.call(message: message,
                                                      chat_id: -group.tid,
                                                      parse_mode: 'Markdown',
-                                                     **reply_markup)
+                                                     **Intouch::Preview::KeyboardMarkup.build_hash(issue_id, journal_id))
     end
     logger.debug "DONE for issue_id #{issue_id}"
   rescue ActiveRecord::RecordNotFound => e

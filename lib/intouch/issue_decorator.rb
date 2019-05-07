@@ -28,10 +28,6 @@ module Intouch
 
       message += "\n#{Intouch.issue_url(id)}"
 
-      # if defined?(telegram_group) && telegram_group&.shared_url.present?
-      #   message += ", [#{I18n.t('intouch.telegram_message.issue.telegram_link')}](#{telegram_group.shared_url})"
-      # end
-
       message
     end
 
