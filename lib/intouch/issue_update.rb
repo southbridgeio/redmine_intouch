@@ -33,7 +33,8 @@ module Intouch
           user_ids += issue.watchers.pluck(:user_id)
         end
       end
-      (user_ids.flatten + [issue.assigner_id] + subscribed_user_ids - [User.anonymous.id] - [issue.updated_by&.id]).uniq
+      ids = (user_ids.flatten + [issue.assigner_id] + subscribed_user_ids - [User.anonymous.id] - [issue.updated_by&.id]).uniq
+      ids & User.active.ids
     end
 
     def customer(protocol)
