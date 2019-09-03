@@ -8,7 +8,7 @@ module Intouch
     end
 
     def as_markdown(user_id: nil)
-      message = "#{prefix(user_id) if user_id}\n`#{project.title}: #{subject}`"
+      message = "#{prefix(user_id) if user_id}\n`#{project.title.gsub(/[`*]/, '')}: #{subject.gsub(/[`*]/, '')}`"
 
       message += "\n#{I18n.t('intouch.telegram_message.issue.updated_by')}: #{updated_by}" if updated_by.present?
 
