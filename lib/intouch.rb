@@ -144,6 +144,16 @@ module Intouch
     !!Setting.find_by_name(:plugin_redmine_intouch).value['telegram_preview']
   end
 
+  def self.handle_group_upgrade(group)
+    begin
+      yield group
+    rescue ChatUpgradedError => e
+      new_chat_id = e.send(:data).dig('parameters', 'migrate_to_chat_id')
+      new_chat_id && group&.update!(tid: -new_chat_id) || raise(e)
+      retry
+    end
+  end
+
   private
 
   def self.logger
