@@ -1,25 +1,26 @@
 class TelegramGroupSenderWorker
   include Sidekiq::Worker
 
-  def perform(issue_id, group_ids, state)
-    return unless group_ids.present?
+  def perform(issue_id, group_id, state)
+    return unless group_id.present?
 
     @issue = Issue.find_by(id: issue_id)
-    @group_ids = group_ids
+    @group_id = group_id
     @state = state
 
     return unless @issue.present?
     return unless notificable?
-    return unless groups.present?
+    return unless group.present?
 
     log
 
-    groups.each { |group| send_message(group) }
+
+    Intouch.handle_group_upgrade(group) { |chat| send_message(chat) }
   end
 
   private
 
-  attr_reader :issue, :state, :group_ids
+  attr_reader :issue, :state, :group_id
 
   def notificable?
     Intouch::Regular::Checker::Base.new(
@@ -29,13 +30,15 @@ class TelegramGroupSenderWorker
     ).required?
   end
 
-  def groups
-    @groups ||= ::TelegramGroupChat.where(id: group_ids).uniq
+  def group
+    @group ||= ::TelegramGroupChat.find_by(id: group_id)
   end
 
   def send_message(group)
     return unless group.tid.present?
-    TelegramMessageSender.perform_async(-group.tid, message)
+    RedmineBots::Telegram::Bot::MessageSender.call(message: message,
+                                                   chat_id: -group.tid,
+                                                   parse_mode: 'Markdown')
   end
 
   def message

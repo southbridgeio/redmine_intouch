@@ -11,7 +11,6 @@ class TelegramMessageSender
   TELEGRAM_MESSAGE_SENDER_ERRORS_LOG = Logger.new(Rails.root.join('log/intouch', 'telegram-message-sender-errors.log'))
 
   def perform(telegram_account_id, message, params = {})
-    puts params
     token = Intouch.bot_token
     bot = Telegram::Bot::Client.new(token)
 
@@ -43,9 +42,7 @@ class TelegramMessageSender
 
         TELEGRAM_MESSAGE_SENDER_ERRORS_LOG.error "#{e.class}: #{e.message}"
         TELEGRAM_MESSAGE_SENDER_ERRORS_LOG.debug "#{telegram_account.inspect}"
-
       end
-
     end
   end
 end

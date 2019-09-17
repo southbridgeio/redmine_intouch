@@ -1,4 +1,10 @@
 module Intouch
+  class ChatUpgradedError
+    def self.===(e)
+      e.is_a?(::Telegram::Bot::Exceptions::ResponseError) && e.message.include?('group chat was upgraded to a supergroup chat')
+    end
+  end
+
   @@mutex = Mutex.new
   @@protocols = {}
   @@update_manager = UpdateManager.new
@@ -142,6 +148,16 @@ module Intouch
 
   def self.telegram_preview?
     !!Setting.find_by_name(:plugin_redmine_intouch).value['telegram_preview']
+  end
+
+  def self.handle_group_upgrade(group)
+    begin
+      yield group
+    rescue ChatUpgradedError => e
+      new_chat_id = e.send(:data).dig('parameters', 'migrate_to_chat_id')
+      new_chat_id && group&.update!(tid: -new_chat_id) || raise(e)
+      retry
+    end
   end
 
   private

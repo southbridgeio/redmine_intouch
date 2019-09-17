@@ -48,14 +48,16 @@ class TelegramGroupLiveSenderWorker
 
     logger.debug "message: #{message}"
 
-    TelegramGroupChat.where(id: group_for_send_ids).uniq.each do |group|
-      logger.debug "group: #{group.inspect}"
-      next unless group.tid.present?
+    TelegramGroupChat.where(id: group_for_send_ids).uniq.each do |chat|
+      Intouch.handle_group_upgrade(chat) do |group|
+        logger.debug "group: #{group.inspect}"
+        next unless group.tid.present?
 
-      RedmineBots::Telegram::Bot::MessageSender.call(message: message,
-                                                     chat_id: -group.tid,
-                                                     parse_mode: 'Markdown',
-                                                     **Intouch::Preview::KeyboardMarkup.build_hash(issue_id, journal_id))
+        RedmineBots::Telegram::Bot::MessageSender.call(message: message,
+                                                       chat_id: -group.tid,
+                                                       parse_mode: 'Markdown',
+                                                       **Intouch::Preview::KeyboardMarkup.build_hash(issue_id, journal_id))
+      end
     end
     logger.debug "DONE for issue_id #{issue_id}"
   rescue ActiveRecord::RecordNotFound => e
