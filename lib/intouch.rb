@@ -1,4 +1,10 @@
 module Intouch
+  class ChatUpgradedError
+    def self.===(e)
+      e.is_a?(::Telegram::Bot::Exceptions::ResponseError) && e.message.include?('group chat was upgraded to a supergroup chat')
+    end
+  end
+
   @@mutex = Mutex.new
   @@protocols = {}
   @@update_manager = UpdateManager.new

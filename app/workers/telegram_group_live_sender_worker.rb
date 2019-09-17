@@ -1,12 +1,6 @@
 class TelegramGroupLiveSenderWorker
   include Sidekiq::Worker
 
-  class ChatUpgradedError
-    def self.===(e)
-      e.is_a?(::Telegram::Bot::Exceptions::ResponseError) && e.message.include?('group chat was upgraded to a supergroup chat')
-    end
-  end
-
   def perform(issue_id, journal_id)
     logger.debug "START for issue_id #{issue_id}"
     Intouch.set_locale
