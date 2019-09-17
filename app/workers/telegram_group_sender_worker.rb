@@ -54,7 +54,7 @@ class TelegramGroupSenderWorker
     logger.info "Notification for state: #{state}"
     logger.info message
     logger.debug issue.inspect
-    logger.debug group_ids.inspect
+    logger.debug group_id.inspect
     logger.info '========================================='
   end
 
