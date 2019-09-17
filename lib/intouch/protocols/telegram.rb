@@ -18,7 +18,7 @@ module Intouch::Protocols
       TelegramSenderWorker.perform_in(5.seconds, issue.id, state)
 
       group_ids = telegram_settings.try(:[], state).try(:[], 'groups')
-      TelegramGroupSenderWorker.perform_in(5.seconds, issue.id, group_ids, state) if group_ids.present?
+      group_ids.each { |id| TelegramGroupSenderWorker.perform_async(issue.id, id, state) }
     end
   end
 end
