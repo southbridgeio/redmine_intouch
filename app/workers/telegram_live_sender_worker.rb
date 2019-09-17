@@ -1,6 +1,13 @@
 class TelegramLiveSenderWorker
   include Sidekiq::Worker
 
+  sidekiq_options queue: :telegram,
+                  rate: {
+                    name: 'telegram_rate_limit',
+                    limit: 1,
+                    period: 1
+                  }
+
   def perform(issue_id, journal_id, user_id)
     logger.debug "START for issue_id #{issue_id}"
 

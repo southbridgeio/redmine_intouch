@@ -1,9 +1,10 @@
 class TelegramMessageSender
   include Sidekiq::Worker
+
   sidekiq_options queue: :telegram,
                   rate: {
                     name: 'telegram_rate_limit',
-                    limit: 15,
+                    limit: 1,
                     period: 1
                   }
 

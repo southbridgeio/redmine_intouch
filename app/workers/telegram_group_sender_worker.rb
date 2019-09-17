@@ -1,6 +1,13 @@
 class TelegramGroupSenderWorker
   include Sidekiq::Worker
 
+  sidekiq_options queue: :telegram,
+                  rate: {
+                    name: 'telegram_rate_limit',
+                    limit: 1,
+                    period: 1
+                  }
+
   def perform(issue_id, group_id, state)
     return unless group_id.present?
 
