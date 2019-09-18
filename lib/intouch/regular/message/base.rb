@@ -20,7 +20,7 @@ module Intouch::Regular::Message
         without_due_date_message,
         inactive_message,
         basic_message
-      ].compact.join("\n").gsub(/[`*]/, '')
+      ].compact.join("\n").gsub(/[`*_]/, '')
     end
 
     def basic_message
