@@ -17,7 +17,7 @@ class TelegramLiveSenderWorker
     logger.debug issue.inspect
 
     user = User.find(user_id)
-    message = issue.as_markdown(user_id: user.id)
+    message = issue.as_html(user_id: user.id)
 
     logger.debug "user: #{user.inspect}"
 
@@ -28,7 +28,7 @@ class TelegramLiveSenderWorker
 
     RedmineBots::Telegram::Bot::MessageSender.call(message: message,
                                                    chat_id: telegram_account.telegram_id,
-                                                   parse_mode: 'Markdown',
+                                                   parse_mode: 'HTML',
                                                    **Intouch::Preview::KeyboardMarkup.build_hash(issue_id, journal_id))
 
     logger.debug "FINISH for issue_id #{issue_id}"
