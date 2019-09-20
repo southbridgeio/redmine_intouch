@@ -105,9 +105,9 @@ module Intouch
             end
           end
 
-          def bold_for_alarm(text)
+          def bold_for_alarm(text, format_strategy: FormatStrategies[:markdown])
             if alarm?
-              "\n*#{I18n.t('field_priority')}: !!! #{text} !!!*"
+              "\n#{format_strategy.bold("#{I18n.t('field_priority')}: !!! #{text} !!!")}"
             else
               "\n#{I18n.t('field_priority')}: #{text}"
             end

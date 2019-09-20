@@ -45,7 +45,7 @@ class TelegramGroupSenderWorker
     return unless group.tid.present?
     RedmineBots::Telegram::Bot::MessageSender.call(message: message,
                                                    chat_id: -group.tid,
-                                                   parse_mode: 'Markdown')
+                                                   parse_mode: 'HTML')
   end
 
   def message

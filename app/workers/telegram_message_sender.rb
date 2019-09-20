@@ -19,7 +19,7 @@ class TelegramMessageSender
       bot.api.send_message(chat_id: telegram_account_id,
                            text: message,
                            disable_web_page_preview: true,
-                           parse_mode: 'Markdown',
+                           parse_mode: 'HTML',
                            **params.transform_keys(&:to_sym))
       TELEGRAM_MESSAGE_SENDER_LOG.info "telegram_account_id: #{telegram_account_id}\tmessage: #{message}"
 

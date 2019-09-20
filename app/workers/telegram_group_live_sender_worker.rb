@@ -51,7 +51,7 @@ class TelegramGroupLiveSenderWorker
 
     return unless group_for_send_ids.present?
 
-    message = issue.as_markdown
+    message = issue.as_html
 
     logger.debug "message: #{message}"
 
@@ -62,7 +62,7 @@ class TelegramGroupLiveSenderWorker
 
         RedmineBots::Telegram::Bot::MessageSender.call(message: message,
                                                        chat_id: -group.tid,
-                                                       parse_mode: 'Markdown',
+                                                       parse_mode: 'HTML',
                                                        **Intouch::Preview::KeyboardMarkup.build_hash(issue_id, journal_id))
       end
     end

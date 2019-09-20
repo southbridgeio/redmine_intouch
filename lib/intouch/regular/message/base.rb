@@ -20,12 +20,12 @@ module Intouch::Regular::Message
         without_due_date_message,
         inactive_message,
         basic_message
-      ].compact.join("\n").gsub(/[`*_]/, '')
+      ].compact.join("\n")
     end
 
     def basic_message
       <<~TEXT
-        `#{title}`
+        <code>#{title}</code>
         #{assigned_to}
         #{priority}
         #{status}

@@ -1,13 +1,14 @@
 module Intouch
   module Message
     class Formatter
-      attr_reader :issue, :project # , :status, :priority
+      attr_reader :issue, :project, :format_strategy # , :status, :priority
 
-      def initialize(issue)
+      def initialize(issue, format_strategy: FormatStrategies[:html])
         @issue = issue
         @project = @issue.project
         @status = @issue.status
         @priority = @issue.priority
+        @format_strategy = format_strategy
       end
 
       def title
@@ -20,7 +21,7 @@ module Intouch
 
       def priority
         if issue.alarm?
-          "*#{I18n.t('field_priority')}: !!! #{@priority.name} !!!*"
+          format_strategy.bold("#{I18n.t('field_priority')}: !!! #{@priority.name} !!!")
         else
           "#{I18n.t('field_priority')}: #{@priority.name}"
         end
@@ -39,11 +40,11 @@ module Intouch
       end
 
       def attention(text)
-        "*!!! #{text} !!!*"
+        format_strategy.bold("!!! #{text} !!!")
       end
 
       def bold(text)
-        "*#{text}*"
+        format_strategy.bold("#{text}")
       end
     end
   end
