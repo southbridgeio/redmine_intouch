@@ -46,7 +46,7 @@ module Intouch
 
       message += "\n#{I18n.t('field_assigned_to')}: #{performer}" unless updated_details.include?('assigned_to')
 
-      message += bold_for_alarm(priority.name) unless updated_details.include?('priority')
+      message += bold_for_alarm(priority.name, format_strategy: FormatStrategies[:html]) unless updated_details.include?('priority')
 
       message += "\n#{I18n.t('field_status')}: #{status.name}" unless updated_details.include?('status')
 
