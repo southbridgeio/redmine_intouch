@@ -5,7 +5,7 @@ class TelegramGroupSenderWorker
                   rate: {
                     name: 'telegram_rate_limit',
                     limit: 1,
-                    period: 1
+                    period: 3
                   }
 
   def perform(issue_id, group_id, state)
