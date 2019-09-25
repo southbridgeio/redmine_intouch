@@ -1,5 +1,6 @@
 module Intouch
   class IssueDecorator < SimpleDelegator
+    include ActionView::Helpers::SanitizeHelper
 
     def initialize(issue, journal_id, protocol:)
       super(issue)
@@ -32,11 +33,11 @@ module Intouch
     end
 
     def as_html(user_id: nil)
-      message = "#{prefix(user_id) if user_id}\n<code>#{project.title}: #{subject}</code>"
+      message = "#{prefix(user_id) if user_id}\n<code>#{sanitize(project.title)}: #{sanitize(subject)}</code>"
 
-      message += "\n#{I18n.t('intouch.telegram_message.issue.updated_by')}: #{updated_by}" if updated_by.present?
+      message += "\n#{I18n.t('intouch.telegram_message.issue.updated_by')}: #{sanitize(updated_by)}" if updated_by.present?
 
-      message += "\n#{I18n.t('field_assigned_to')}: #{updated_performer_text}" if updated_details.include?('assigned_to')
+      message += "\n#{I18n.t('field_assigned_to')}: #{sanitize(updated_performer_text)}" if updated_details.include?('assigned_to')
 
       message += bold_for_alarm(updated_priority_text, format_strategy: FormatStrategies[:html]) if updated_details.include?('priority')
 
