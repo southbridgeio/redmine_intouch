@@ -4,8 +4,8 @@ class TelegramGroupLiveSenderWorker
   sidekiq_options queue: :telegram,
                   rate: {
                     name: 'telegram_rate_limit',
-                    limit: 1,
-                    period: 1
+                    limit: 20,
+                    period: 60
                   }
 
   def perform(issue_id, journal_id)
