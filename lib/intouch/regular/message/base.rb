@@ -1,6 +1,7 @@
 module Intouch::Regular::Message
   class Base
     extend Intouch::ServiceInitializer
+    include ActionView::Helpers::SanitizeHelper
 
     attr_reader :issue
 
@@ -25,10 +26,10 @@ module Intouch::Regular::Message
 
     def basic_message
       <<~TEXT
-        <code>#{title}</code>
-        #{assigned_to}
-        #{priority}
-        #{status}
+        <code>#{sanitize(title)}</code>
+        #{sanitize(assigned_to)}
+        #{sanitize(priority)}
+        #{sanitize(status)}
         #{link}
       TEXT
     end
