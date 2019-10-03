@@ -1,13 +1,6 @@
 class TelegramGroupLiveSenderWorker
   include Sidekiq::Worker
 
-  sidekiq_options queue: :telegram,
-                  rate: {
-                    name: 'telegram_rate_limit',
-                    limit: 20,
-                    period: 60
-                  }
-
   def perform(issue_id, journal_id)
     logger.debug "START for issue_id #{issue_id}"
     Intouch.set_locale
@@ -55,18 +48,9 @@ class TelegramGroupLiveSenderWorker
 
     logger.debug "message: #{message}"
 
-    TelegramGroupChat.where(id: group_for_send_ids).uniq.each do |chat|
-      Intouch.handle_group_upgrade(chat) do |group|
-        logger.debug "group: #{group.inspect}"
-        next unless group.tid.present?
-
-        RedmineBots::Telegram::Bot::MessageSender.call(message: message,
-                                                       chat_id: -group.tid,
-                                                       parse_mode: 'HTML',
-                                                       **Intouch::Preview::KeyboardMarkup.build_hash(issue_id, journal_id))
-      end
+    group_for_send_ids.each do |group_id|
+      TelegramGroupMessageSender.perform_async(group_id, message, issue_id, journal_id)
     end
-    logger.debug "DONE for issue_id #{issue_id}"
   rescue ActiveRecord::RecordNotFound => e
     # ignore
   end
