@@ -5,7 +5,7 @@ class TelegramGroupSenderWorker
                   rate: {
                     name: 'telegram_rate_limit',
                     limit: 1,
-                    period: 3
+                    period: 4
                   }
 
   def perform(issue_id, group_id, state)
@@ -20,7 +20,6 @@ class TelegramGroupSenderWorker
     return unless group.present?
 
     log
-
 
     Intouch.handle_group_upgrade(group) { |chat| send_message(chat) }
   end
