@@ -4,12 +4,12 @@
 
 # redmine_intouch
 
-[![Code Climate](https://codeclimate.com/github/centosadmin/redmine_intouch/badges/gpa.svg)](https://codeclimate.com/github/centosadmin/redmine_intouch)
-[![Build Status](https://travis-ci.org/centosadmin/redmine_intouch.svg?branch=master)](https://travis-ci.org/centosadmin/redmine_intouch)
+[![Code Climate](https://codeclimate.com/github/southbridgeio/redmine_intouch/badges/gpa.svg)](https://codeclimate.com/github/southbridgeio/redmine_intouch)
+[![Build Status](https://travis-ci.org/southbridgeio/redmine_intouch.svg?branch=master)](https://travis-ci.org/southbridgeio/redmine_intouch)
 
 Plugin is designed to send notifications to Redmine’s users by Telegram or E-mail.
 
-Please help us make this plugin better telling us of any [issues](https://github.com/centosadmin/redmine_intouch/issues) you'll face using it. We are ready to answer all your questions regarding this plugin.
+Please help us make this plugin better telling us of any [issues](https://github.com/southbridgeio/redmine_intouch/issues) you'll face using it. We are ready to answer all your questions regarding this plugin.
 
 # Installation
 
@@ -17,15 +17,15 @@ Please help us make this plugin better telling us of any [issues](https://github
 
 * **Ruby 2.3+**
 * **Redmine 3.1+**
-* Configured [redmine_bots](https://github.com/centosadmin/redmine_bots)
+* Configured [redmine_bots](https://github.com/southbridgeio/redmine_bots)
 * Install [Redis](https://redis.io) 2.8 or higher. Run Redis and add it to autorun.
 * Install the [redmine_sidekiq](https://github.com/ogom/redmine_sidekiq) plugin. [Redis](https://redis.io) 2.8 or greater is required.
-* You need to configure Sidekiq queues `default` and `telegram`. [Config example](https://github.com/centosadmin/redmine_intouch/blob/master/extras/sidekiq.yml) - place it to `redmine/config` directory (Or copy from plugins/redmine_intouch/extras/sidekiq.yml to config/sidekiq.yml).
+* You need to configure Sidekiq queues `default` and `telegram`. [Config example](https://github.com/southbridgeio/redmine_intouch/blob/master/extras/sidekiq.yml) - place it to `redmine/config` directory (Or copy from plugins/redmine_intouch/extras/sidekiq.yml to config/sidekiq.yml).
 * Standard install plugin:
 
 ```
 cd {REDMINE_ROOT}
-git clone https://github.com/centosadmin/redmine_intouch.git plugins/redmine_intouch
+git clone https://github.com/southbridgeio/redmine_intouch.git plugins/redmine_intouch
 bundle install RAILS_ENV=production
 bundle exec rake redmine:plugins:migrate RAILS_ENV=production
 ```
@@ -42,8 +42,8 @@ to fix compatibility with Rails 5.
 
 ### Upgrade from 1.2 to 1.3+
 
-From 1.3.0 redmine_intouch depends on [redmine_bots](https://github.com/centosadmin/redmine_bots) instead of redmine_telegram_common.
-Make sure to remove redmine_telegram_common from plugins and follow installation instruction for [redmine_bots](https://github.com/centosadmin/redmine_bots).
+From 1.3.0 redmine_intouch depends on [redmine_bots](https://github.com/southbridgeio/redmine_bots) instead of redmine_telegram_common.
+Make sure to remove redmine_telegram_common from plugins and follow installation instruction for [redmine_bots](https://github.com/southbridgeio/redmine_bots).
 
 ### Upgrade from 1.0.2 to 1.1.0+
 
@@ -60,15 +60,15 @@ Also you should re-initialize bot on redmine_telegram_common settings page.
 
 ### Upgrade from 0.3 to 1.0.0+
 
-Since version 1.0.0 this plugin uses [redmine_telegram_common](https://github.com/centosadmin/redmine_telegram_common)
+Since version 1.0.0 this plugin uses [redmine_telegram_common](https://github.com/southbridgeio/redmine_telegram_common)
 0.1.0 version, where removed Telegram CLI dependency. Please, take a look on new requirements.
 
 ### Upgrade from 0.2 to 0.3+
 
-Since version 0.2 this plugin uses [redmine_telegram_common](https://github.com/centosadmin/redmine_telegram_common)
+Since version 0.2 this plugin uses [redmine_telegram_common](https://github.com/southbridgeio/redmine_telegram_common)
 plugin.
 
-Before upgrade install [this](https://github.com/centosadmin/redmine_telegram_common) plugin.
+Before upgrade install [this](https://github.com/southbridgeio/redmine_telegram_common) plugin.
 
 Then upgrade and run `bundle exec rake intouch:common:migrate RAILS_ENV=production` for migrate data to new table.
 
