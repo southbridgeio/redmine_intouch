@@ -5,6 +5,8 @@
     {name: 'sidekiq_cron_jobs', partial: 'settings/sidekiq_cron_jobs', label: 'intouch.label.sidekiq_cron_jobs'}
 ] %>
 
+<%= render partial: 'settings/redmine_bots/deprecation_warning' %>
+
 <% unless Redmine::Plugin.installed?('redmine_sidekiq') %>
   <h1 style="text-align: center">
     !!! <a href="https://github.com/ogom/redmine_sidekiq" target="_blank">redmine_sidekiq</a>

@@ -23,28 +23,26 @@ Rails.application.config.eager_load_paths += paths
 Rails.application.config.autoload_paths += paths
 ActiveSupport::Dependencies.autoload_paths += paths
 
-Intouch.register_protocol('telegram', Intouch::Protocols::Telegram.new)
-Intouch.register_protocol('slack', Intouch::Protocols::Slack.new)
-Intouch.register_protocol('email', Intouch::Protocols::Email.new)
-
+Intouch.bootstrap
 
 Redmine::Plugin.register :redmine_intouch do
   name 'Redmine Intouch plugin'
   url 'https://github.com/southbridgeio/redmine_intouch'
   description 'This is a plugin for Redmine which sends a reminder email and Telegram messages to the assignee workign on a task, whose status is not updated with-in allowed duration'
-  version '1.4.0'
+  version '1.5.0'
   author 'Southbridge'
   author_url 'https://github.com/southbridgeio'
 
   requires_redmine version_or_higher: '3.0'
 
-  requires_redmine_plugin :redmine_bots, '0.2.0'
+  requires_redmine_plugin :redmine_bots, '0.4.0'
 
   settings(
     default: {
       'active_protocols' => %w(email),
       'work_day_from' => '10:00',
-      'work_day_to' => '18:00'
+      'work_day_to' => '18:00',
+      'telegram_preview' => '1'
     },
     partial: 'settings/intouch')
 

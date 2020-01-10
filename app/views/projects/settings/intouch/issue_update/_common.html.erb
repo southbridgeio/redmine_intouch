@@ -1,3 +1,6 @@
+<% @priorities ||= IssuePriority.order(:position) %>
+<% @statuses ||= IssueStatus.order(:position) %>
+
 <p class="description">
   <%= t("intouch.project.settings.issue_update.#{kind}.description") %>
 </p>
@@ -26,7 +29,7 @@
   <thead>
   <tr>
     <th><%= t('field_status') %> \ <%= t('field_priority') %></th>
-    <% IssuePriority.order(:position).each do |priority| %>
+    <% @priorities.each do |priority| %>
       <th>
         <%= check_box_tag "#{kind}_priority_#{priority.id}", '1', false, class: 'prioritySelectAll',
             data: { kind: kind, priority_id: priority.id }
@@ -37,7 +40,7 @@
   </tr>
   </thead>
   <tbody>
-  <% IssueStatus.order(:position).each do |status| %>
+  <% @statuses.each do |status| %>
     <tr>
       <th>
         <%= check_box_tag "#{kind}_status_#{status.id}", '1', false, class: 'statusSelectAll',
@@ -45,7 +48,7 @@
         %>
         <%= label_tag "#{kind}_status_#{status.id}", status.name %>
       </th>
-      <% IssuePriority.order(:position).each do |priority| %>
+      <% @priorities.each do |priority| %>
         <td>
           <% Intouch.active_protocols.each do |protocol, _| %>
             <%= check_box_tag "intouch_settings[#{protocol}_settings][#{kind}][#{status.id}][]",

@@ -44,19 +44,13 @@ class TelegramGroupLiveSenderWorker
 
     return unless group_for_send_ids.present?
 
-    message = issue.as_markdown
+    message = issue.as_html
 
     logger.debug "message: #{message}"
 
-    TelegramGroupChat.where(id: group_for_send_ids).uniq.each do |group|
-      logger.debug "group: #{group.inspect}"
-      next unless group.tid.present?
-
-      job = TelegramMessageSender.perform_async(-group.tid, message)
-
-      logger.debug job.inspect
+    group_for_send_ids.each do |group_id|
+      TelegramGroupMessageSender.perform_async(group_id, message, issue_id, journal_id)
     end
-    logger.debug "DONE for issue_id #{issue_id}"
   rescue ActiveRecord::RecordNotFound => e
     # ignore
   end

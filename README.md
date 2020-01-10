@@ -15,7 +15,7 @@ Please help us make this plugin better telling us of any [issues](https://github
 
 ## Requirements
 
-* **Ruby 2.3+**
+* **Ruby 2.4+**
 * **Redmine 3.1+**
 * Configured [redmine_bots](https://github.com/southbridgeio/redmine_bots)
 * Install [Redis](https://redis.io) 2.8 or higher. Run Redis and add it to autorun.

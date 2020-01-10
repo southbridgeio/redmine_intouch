@@ -1,7 +1,14 @@
 class TelegramLiveSenderWorker
   include Sidekiq::Worker
 
-  def perform(issue_id, journal_id, recipient_ids)
+  sidekiq_options queue: :telegram,
+                  rate: {
+                    name: 'telegram_rate_limit',
+                    limit: 1,
+                    period: 1
+                  }
+
+  def perform(issue_id, journal_id, user_id)
     logger.debug "START for issue_id #{issue_id}"
 
     Intouch.set_locale
@@ -9,24 +16,23 @@ class TelegramLiveSenderWorker
     issue = Intouch::IssueDecorator.new(Issue.find(issue_id), journal_id, protocol: 'telegram')
     logger.debug issue.inspect
 
-    User.where(id: recipient_ids).each do |user|
-      message = issue.as_markdown(user_id: user.id)
-      
-      logger.debug "user: #{user.inspect}"
+    user = User.find(user_id)
+    message = issue.as_html(user_id: user.id)
 
-      telegram_account = TelegramAccount.find_by(user_id: user.id)
-      logger.debug "telegram_account: #{telegram_account.inspect}"
-      next unless telegram_account.present?
+    logger.debug "user: #{user.inspect}"
 
-      logger.debug message
+    telegram_account = TelegramAccount.find_by!(user_id: user.id)
+    logger.debug "telegram_account: #{telegram_account.inspect}"
 
-      job = TelegramMessageSender.perform_async(telegram_account.telegram_id, message)
+    logger.debug message
 
-      logger.debug job.inspect
-    end
+    RedmineBots::Telegram::Bot::MessageSender.call(message: message,
+                                                   chat_id: telegram_account.telegram_id,
+                                                   parse_mode: 'HTML',
+                                                   **Intouch::Preview::KeyboardMarkup.build_hash(issue_id, journal_id))
 
     logger.debug "FINISH for issue_id #{issue_id}"
-  rescue ActiveRecord::RecordNotFound => e
+  rescue ActiveRecord::RecordNotFound
     # ignore
   end
 

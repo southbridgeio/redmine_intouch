@@ -1,5 +1,6 @@
 module Intouch
   class IssueDecorator < SimpleDelegator
+    include ActionView::Helpers::SanitizeHelper
 
     def initialize(issue, journal_id, protocol:)
       super(issue)
@@ -8,7 +9,7 @@ module Intouch
     end
 
     def as_markdown(user_id: nil)
-      message = "#{prefix(user_id) if user_id}\n`#{project.title}: #{subject}`"
+      message = "#{prefix(user_id) if user_id}\n`#{project.title.gsub(/[`*_]/, '')}: #{subject.gsub(/[`*_]/, '')}`"
 
       message += "\n#{I18n.t('intouch.telegram_message.issue.updated_by')}: #{updated_by}" if updated_by.present?
 
@@ -28,9 +29,29 @@ module Intouch
 
       message += "\n#{Intouch.issue_url(id)}"
 
-      # if defined?(telegram_group) && telegram_group&.shared_url.present?
-      #   message += ", [#{I18n.t('intouch.telegram_message.issue.telegram_link')}](#{telegram_group.shared_url})"
-      # end
+      message
+    end
+
+    def as_html(user_id: nil)
+      message = "#{prefix(user_id) if user_id}\n<code>#{sanitize(project.title)}: #{sanitize(subject)}</code>"
+
+      message += "\n#{I18n.t('intouch.telegram_message.issue.updated_by')}: #{updated_by}" if updated_by.present?
+
+      message += "\n#{I18n.t('field_assigned_to')}: #{updated_performer_text}" if updated_details.include?('assigned_to')
+
+      message += bold_for_alarm(updated_priority_text, format_strategy: FormatStrategies[:html]) if updated_details.include?('priority')
+
+      message += "\n#{I18n.t('field_status')}: #{updated_status_text}" if updated_details.include?('status')
+
+      message += "\n#{I18n.t('intouch.telegram_message.issue.updated_details')}: #{updated_details_text}" if updated_details_text.present?
+
+      message += "\n#{I18n.t('field_assigned_to')}: #{performer}" unless updated_details.include?('assigned_to')
+
+      message += bold_for_alarm(priority.name, format_strategy: FormatStrategies[:html]) unless updated_details.include?('priority')
+
+      message += "\n#{I18n.t('field_status')}: #{status.name}" unless updated_details.include?('status')
+
+      message += "\n#{Intouch.issue_url(id)}"
 
       message
     end

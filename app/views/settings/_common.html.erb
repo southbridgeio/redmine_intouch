@@ -69,3 +69,13 @@
     </ul>
   </div>
 <% end %>
+
+<div class="box tabular settings">
+  <h4><%= l 'label_preview' %></h4>
+  <ul class="inline-checkboxes">
+    <li>
+      <%= label_tag 'settings[telegram_preview]', "#{l('label_preview')} (Telegram)" %>
+      <%= check_box_tag 'settings[telegram_preview]', '1', @settings['telegram_preview'] %>
+    </li>
+  </ul>
+</div>

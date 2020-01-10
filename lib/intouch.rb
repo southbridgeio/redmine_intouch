@@ -1,8 +1,25 @@
 module Intouch
+  class ChatUpgradedError
+    def self.===(e)
+      e.is_a?(::Telegram::Bot::Exceptions::ResponseError) && e.message.include?('group chat was upgraded to a supergroup chat')
+    end
+  end
+
   @@mutex = Mutex.new
   @@protocols = {}
+  @@update_manager = UpdateManager.new
 
-  mattr_reader :protocols
+
+  mattr_reader :protocols, :update_manager
+
+  def self.bootstrap
+    register_protocol('telegram', Intouch::Protocols::Telegram.new)
+    register_protocol('slack', Intouch::Protocols::Slack.new)
+    register_protocol('email', Intouch::Protocols::Email.new)
+
+    update_manager.on(Telegram::Bot::Types::CallbackQuery, &Intouch::Preview::Handler)
+    update_manager.on(Telegram::Bot::Types::Message, &Intouch::CommandHandler)
+  end
 
   def self.register_protocol(name, protocol)
     @@mutex.synchronize { @@protocols[name.to_s] = protocol }
@@ -30,7 +47,7 @@ module Intouch
   end
 
   def self.handle_message(message)
-    Intouch::TelegramBot.new(message).call if message.is_a?(Telegram::Bot::Types::Message)
+    update_manager.dispatch(message)
   end
 
   def self.available_recipients
@@ -127,6 +144,20 @@ module Intouch
 
   def self.issue_url(issue_id)
     "#{Setting['protocol']}://#{Setting['host_name']}/issues/#{issue_id}"
+  end
+
+  def self.telegram_preview?
+    !!Setting.find_by_name(:plugin_redmine_intouch).value['telegram_preview']
+  end
+
+  def self.handle_group_upgrade(group)
+    begin
+      yield group
+    rescue ChatUpgradedError => e
+      new_chat_id = e.send(:data).dig('parameters', 'migrate_to_chat_id')
+      new_chat_id && group&.update!(tid: -new_chat_id) || raise(e)
+      retry
+    end
   end
 
   private
