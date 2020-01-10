@@ -15,7 +15,7 @@
 
 ## Требования
 
-* **Ruby 2.3+**
+* **Ruby 2.4+**
 * **Redmine 3.1+**
 * Настроенный [redmine_telegram_common](https://github.com/centosadmin/redmine_telegram_common)
 * У Вас должен быть бот в Telegram

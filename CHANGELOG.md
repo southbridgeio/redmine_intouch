@@ -1,3 +1,15 @@
+# 1.5.0
+
+* Add plugins deprecation warning
+* Fix project settings page performance
+* Implement message previews
+* Don’t send updates to updated_by
+* Don’t send live updates to inactive users
+* Handle telegram group upgrade errors
+* Set telegram rate limiting
+* Use html formatting in telegram
+* Fix idempotency
+
 # 1.4.0
 
 * Adapt for Redmine 4

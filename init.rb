@@ -27,15 +27,15 @@ Intouch.bootstrap
 
 Redmine::Plugin.register :redmine_intouch do
   name 'Redmine Intouch plugin'
-  url 'https://github.com/centosadmin/redmine_intouch'
+  url 'https://github.com/southbridge/redmine_intouch'
   description 'This is a plugin for Redmine which sends a reminder email and Telegram messages to the assignee workign on a task, whose status is not updated with-in allowed duration'
-  version '1.4.0'
+  version '1.5.0'
   author 'Southbridge'
-  author_url 'https://github.com/centosadmin'
+  author_url 'https://github.com/southbridge'
 
   requires_redmine version_or_higher: '3.0'
 
-  requires_redmine_plugin :redmine_bots, '0.2.0'
+  requires_redmine_plugin :redmine_bots, '0.4.0'
 
   settings(
     default: {
