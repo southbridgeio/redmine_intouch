@@ -1,3 +1,8 @@
+# 1.5.1
+
+* Remove sidekiq-rate-limiter from gemfile
+* Remove ruby 2.7.0 from build matrix
+
 # 1.5.0
 
 * Add plugins deprecation warning
