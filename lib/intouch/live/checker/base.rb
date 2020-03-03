@@ -14,7 +14,7 @@ module Intouch::Live::Checker
     end
 
     def required?
-      project_enabled? && issue_open?
+      project_enabled?
     end
 
     def project_enabled?

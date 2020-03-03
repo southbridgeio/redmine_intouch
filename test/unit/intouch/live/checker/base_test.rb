@@ -43,16 +43,5 @@ class Intouch::Live::Checker::BaseTest < ActiveSupport::TestCase
 
       it { subject.must_equal false }
     end
-
-    describe 'closed issue' do
-      before do
-        issue.stubs(:closed?).returns(true)
-
-        project.stubs(:module_enabled?).with(:intouch).returns(true)
-        project.stubs(:active?).returns(true)
-      end
-
-      it { subject.must_equal false }
-    end
   end
 end
