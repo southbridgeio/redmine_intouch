@@ -51,7 +51,7 @@ module Intouch
 
       message += "\n#{I18n.t('field_status')}: #{status.name}" unless updated_details.include?('status')
 
-      message += %{\n<a href="#{Intouch.issue_url(id)}">#{Intouch.issue_url(id)}</a>}
+      message += "\n#{Intouch.issue_url(id)}"
 
       message
     end
