@@ -5,7 +5,7 @@ scope :intouch do
   put 'save_settings' => 'intouch#save_settings'
 end
 
-resources :telegram_groups, only: [:destroy]
+resources :telegram_groups, only: [:index, :show, :destroy]
 
 resources :intouch_cron_jobs do
   collection do

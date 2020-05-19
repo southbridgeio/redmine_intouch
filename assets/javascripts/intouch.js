@@ -1,5 +1,5 @@
 $(function () {
-    $('.prioritySelectAll').change(function () {
+    $(document).on('change', '.prioritySelectAll', function () {
         var priorityId = $(this).data('priorityId');
         var kind = $(this).data('kind');
 
@@ -10,8 +10,8 @@ $(function () {
             checkboxes.prop('checked', false);
         }
     });
-    
-    $('.statusSelectAll').change(function () {
+
+    $(document).on('change', '.statusSelectAll', function () {
         var statusId = $(this).data('statusId');
         var kind = $(this).data('kind');
 
