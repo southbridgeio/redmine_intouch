@@ -14,10 +14,16 @@ class TelegramGroupMessageSender
     Intouch.handle_group_upgrade(chat) do |group|
       next unless group.tid.present?
 
-      RedmineBots::Telegram::Bot::MessageSender.call(message: message,
-                                                     chat_id: -group.tid,
-                                                     parse_mode: 'HTML',
-                                                     **Intouch::Preview::KeyboardMarkup.build_hash(issue_id, journal_id))
+      bot.send_message(text: message,
+                       chat_id: -group.tid,
+                       parse_mode: 'HTML',
+                       **Intouch::Preview::KeyboardMarkup.build_hash(issue_id, journal_id))
     end
+  end
+
+  private
+
+  def bot
+    RedmineBots::Telegram.bot
   end
 end

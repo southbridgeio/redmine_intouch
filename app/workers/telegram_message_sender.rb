@@ -9,6 +9,6 @@ class TelegramMessageSender
                   }
 
   def perform(telegram_account_id, message, params = {})
-    RedmineBots::Telegram::Bot::MessageSender.call(chat_id: telegram_account_id, message: message, **params.transform_keys(&:to_sym))
+    RedmineBots::Telegram.bot.send_message(chat_id: telegram_account_id, text: message, **params.transform_keys(&:to_sym))
   end
 end

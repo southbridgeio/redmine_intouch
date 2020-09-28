@@ -42,9 +42,8 @@ class TelegramGroupSenderWorker
 
   def send_message(group)
     return unless group.tid.present?
-    RedmineBots::Telegram::Bot::MessageSender.call(message: message,
-                                                   chat_id: -group.tid,
-                                                   parse_mode: 'HTML')
+
+    RedmineBots::Telegram.bot.async.send_message(chat_id: -group.tid, text: message, parse_mode: 'HTML')
   end
 
   def message

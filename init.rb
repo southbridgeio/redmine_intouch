@@ -14,7 +14,6 @@ reloader.to_prepare do
   end
 
   require_dependency 'redmine_bots'
-  RedmineBots::Telegram.update_manager.add_handler(->(message) { Intouch.handle_message(message) } )
 end
 
 paths = Dir.glob("#{Rails.application.config.root}/plugins/redmine_intouch/{lib,app/workers,app/models,app/controllers}")
