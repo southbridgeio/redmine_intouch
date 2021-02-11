@@ -42,8 +42,8 @@ class TelegramGroupLiveSenderWorker
 
     logger.debug "group_for_send_ids: #{group_for_send_ids.inspect}"
 
-    subscription_group_id = TelegramGroupChat.find_by_tid(Intouch::TelegramChatSubscription.find_by(issue: issue)&.chat_id)&.id
-    group_for_send_ids << subscription_group_id.chat_id if subscription_group_id
+    subscription_group_id = TelegramGroupChat.find_by_tid(Intouch::TelegramChatSubscription.find_by(issue_id: issue.id)&.chat_id)&.id
+    group_for_send_ids << subscription_group_id if subscription_group_id
 
     return unless group_for_send_ids.present?
 
