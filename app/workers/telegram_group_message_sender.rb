@@ -9,7 +9,7 @@ class TelegramGroupMessageSender
                   }
 
   def perform(chat_id, message, issue_id, journal_id)
-    chat = TelegramGroupChat.find_by(id: Integer(chat_id).abs) || return
+    chat = TelegramGroupChat.find_by(id: chat_id) || return
 
     Intouch.handle_group_upgrade(chat) do |group|
       next unless group.tid.present?
