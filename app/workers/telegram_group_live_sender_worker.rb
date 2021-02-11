@@ -15,7 +15,7 @@ class TelegramGroupLiveSenderWorker
 
     group_ids = telegram_groups_settings.select do |_k, v|
       v.try(:[], issue.status_id.to_s).try(:include?, issue.priority_id.to_s)
-    end.keys
+    end.keys.to_set
 
     logger.debug "group_ids: #{group_ids.inspect}"
 
@@ -41,6 +41,9 @@ class TelegramGroupLiveSenderWorker
                          end
 
     logger.debug "group_for_send_ids: #{group_for_send_ids.inspect}"
+
+    chat_subscription = Intouch::TelegramChatSubscription.find_by(issue: issue)
+    group_for_send_ids << chat_subscription.chat_id if chat_subscription
 
     return unless group_for_send_ids.present?
 
