@@ -1,0 +1,2 @@
+document.getElementById('telegram-groups-list').insertAdjacentHTML('beforeend', "<%= escape_javascript(render partial: 'projects/settings/intouch/issue_update/telegram_group',
+               locals: { telegram_group: @telegram_group, priorities: @priorities, statuses: @statuses, settings_source: @settings_source }) %>")

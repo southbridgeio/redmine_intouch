@@ -1,0 +1,58 @@
+<% kind = dom_id(telegram_group) %>
+<h4><%= telegram_group.title %></h4>
+<%= check_box_tag "intouch_settings[telegram_settings][groups][#{telegram_group.id}][only_unassigned]", '1',
+                  settings_source.telegram_settings.try(:[], 'groups').try(:[], telegram_group.id.to_s).
+                      try(:[], 'only_unassigned'),
+                  id: "telegram_groups_#{telegram_group.id}_only_unassigned"
+%>
+<%= label_tag "telegram_groups_#{telegram_group.id}_only_unassigned",
+              t('intouch.project.settings.issue_update.telegram_groups.only_unassigned') %>
+
+<%= check_box_tag "intouch_settings[telegram_settings][groups][#{telegram_group.id}][anytime]", '1',
+                  settings_source.telegram_settings.try(:[], 'groups').try(:[], telegram_group.id.to_s).
+                      try(:[], 'anytime'),
+                  id: "telegram_groups_#{telegram_group.id}_anytime"
+%>
+<%= label_tag "telegram_groups_#{telegram_group.id}_anytime",
+              t('intouch.project.settings.issue_update.telegram_groups.anytime') %>
+<table>
+  <thead>
+  <tr>
+    <th><%= t('field_status') %> \ <%= t('field_priority') %></th>
+    <% priorities.each do |priority| %>
+      <th>
+        <%= check_box_tag "#{kind}_priority_#{priority.id}", '1', false, class: 'prioritySelectAll',
+                          data:                                                 { kind: kind, priority_id: priority.id }
+        %>
+        <%= label_tag "#{kind}_priority_#{priority.id}", priority.name %>
+      </th>
+    <% end %>
+  </tr>
+  </thead>
+  <tbody>
+  <% statuses.each do |status| %>
+    <tr>
+      <th>
+        <%= check_box_tag "#{kind}_status_#{status.id}", '1', false, class: 'statusSelectAll',
+                          data: {kind: kind, status_id: status.id}
+        %>
+        <%= label_tag "#{kind}_status_#{status.id}", status.name %>
+      </th>
+      <% priorities.each do |priority| %>
+
+        <td>
+          <%= check_box_tag "intouch_settings[telegram_settings][groups][#{telegram_group.id}][#{status.id}][]", priority.id,
+                            settings_source.telegram_settings.try(:[], 'groups').try(:[], telegram_group.id.to_s).
+                                try(:[], status.id.to_s).try(:include?, priority.id.to_s),
+                            class: 'intouchPriorityStatusCheckbox',
+                            data:  {kind: kind, priority_id: priority.id, status_id: status.id}
+          %>
+        </td>
+
+      <% end %>
+    </tr>
+
+
+  <% end %>
+  </tbody>
+</table>

@@ -17,8 +17,10 @@ module Intouch
     register_protocol('slack', Intouch::Protocols::Slack.new)
     register_protocol('email', Intouch::Protocols::Email.new)
 
-    update_manager.on(Telegram::Bot::Types::CallbackQuery, &Intouch::Preview::Handler)
-    update_manager.on(Telegram::Bot::Types::Message, &Intouch::CommandHandler)
+    RedmineBots::Telegram.bot.register_handler(Protocols::Telegram::NameUpdateCommand.new)
+    RedmineBots::Telegram.bot.register_handler(Protocols::Telegram::GroupUpdateCommand.new)
+    RedmineBots::Telegram.bot.register_handler(Protocols::Telegram::NotifyCommand.new)
+    RedmineBots::Telegram.bot.register_handler(Protocols::Telegram::PreviewHandler.new)
   end
 
   def self.register_protocol(name, protocol)

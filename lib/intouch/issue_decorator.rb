@@ -47,7 +47,7 @@ module Intouch
 
       message += "\n#{I18n.t('field_assigned_to')}: #{performer}" unless updated_details.include?('assigned_to')
 
-      message += bold_for_alarm(priority.name, format_strategy: FormatStrategies[:html]) unless updated_details.include?('priority')
+      message += bold_for_alarm(priority.name, format_strategy: Intouch::FormatStrategies[:html]) unless updated_details.include?('priority')
 
       message += "\n#{I18n.t('field_status')}: #{status.name}" unless updated_details.include?('status')
 
@@ -112,9 +112,9 @@ module Intouch
     end
 
     def updated_status_text
-      status_journal = @journal.details.find_by(prop_key: 'status_id')
-      old_status = IssueStatus.find status_journal.old_value
-      "#{old_status.name} -> #{status.name}"
+      status_journal = @journal.details.find_by(prop_key: %w[status status_id])
+      old_status_name = IssueStatus.find_by(id: status_journal.old_value)&.name || status_journal.old_value
+      "#{old_status_name} -> #{status.name}"
     end
 
     def required_recipients

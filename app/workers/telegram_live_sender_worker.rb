@@ -26,10 +26,10 @@ class TelegramLiveSenderWorker
 
     logger.debug message
 
-    RedmineBots::Telegram::Bot::MessageSender.call(message: message,
-                                                   chat_id: telegram_account.telegram_id,
-                                                   parse_mode: 'HTML',
-                                                   **Intouch::Preview::KeyboardMarkup.build_hash(issue_id, journal_id))
+    bot.send_message(text: message,
+                     chat_id: telegram_account.telegram_id,
+                     parse_mode: 'HTML',
+                     **Intouch::Preview::KeyboardMarkup.build_hash(issue_id, journal_id))
 
     logger.debug "FINISH for issue_id #{issue_id}"
   rescue ActiveRecord::RecordNotFound
@@ -40,5 +40,9 @@ class TelegramLiveSenderWorker
 
   def logger
     @logger ||= Logger.new(Rails.root.join('log/intouch', 'telegram-live-sender.log'))
+  end
+
+  def bot
+    RedmineBots::Telegram.bot
   end
 end
