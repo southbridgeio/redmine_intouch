@@ -1,3 +1,10 @@
+# 1.6.0
+
+* Send live notifications for closed issues
+* Add lazy loading for telegram chats
+* Refactor commands
+* Add individual chat subscriptions for issues
+
 # 1.5.1
 
 * Remove sidekiq-rate-limiter from gemfile
