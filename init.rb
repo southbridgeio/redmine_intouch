@@ -1,28 +1,37 @@
-require_dependency Rails.root.join('plugins','redmine_bots', 'init')
-
 FileUtils.mkdir_p(Rails.root.join('log/intouch')) unless Dir.exist?(Rails.root.join('log/intouch'))
 
-require 'intouch'
 require 'telegram/bot'
 
-# Rails 5.1/Rails 4
-reloader = defined?(ActiveSupport::Reloader) ? ActiveSupport::Reloader : ActionDispatch::Reloader
-reloader.to_prepare do
+if Gem::Version.new(Redmine::VERSION.to_s) < Gem::Version.new('5.0')
+  require_dependency Rails.root.join('plugins','redmine_bots', 'init')
+  require 'intouch'
+
+  # Rails 5.1/Rails 4
+  reloader = defined?(ActiveSupport::Reloader) ? ActiveSupport::Reloader : ActionDispatch::Reloader
+  reloader.to_prepare do
+    paths = '/lib/intouch/{patches/*_patch,hooks/*_hook}.rb'
+    Dir.glob(File.dirname(__FILE__) + paths).each do |file|
+      require_dependency file
+    end
+
+    require_dependency 'redmine_bots'
+
+    paths = Dir.glob("#{Rails.application.config.root}/plugins/redmine_intouch/{lib,app/workers,app/models,app/controllers}")
+
+    Rails.application.config.eager_load_paths += paths
+    Rails.application.config.autoload_paths += paths
+    ActiveSupport::Dependencies.autoload_paths += paths
+  end
+  Intouch.bootstrap
+else
+  # register intouch protocols before loading redmine's patches
+  Intouch.bootstrap
+
   paths = '/lib/intouch/{patches/*_patch,hooks/*_hook}.rb'
   Dir.glob(File.dirname(__FILE__) + paths).each do |file|
-    require_dependency file
+    require file
   end
-
-  require_dependency 'redmine_bots'
 end
-
-paths = Dir.glob("#{Rails.application.config.root}/plugins/redmine_intouch/{lib,app/workers,app/models,app/controllers}")
-
-Rails.application.config.eager_load_paths += paths
-Rails.application.config.autoload_paths += paths
-ActiveSupport::Dependencies.autoload_paths += paths
-
-Intouch.bootstrap
 
 Redmine::Plugin.register :redmine_intouch do
   name 'Redmine Intouch plugin'
