@@ -12,7 +12,7 @@ module Intouch
 
           def assigner_ids
             Group.where(id: active_assigner_groups).try(:map, &:user_ids).try(:flatten).try(:uniq) |
-            users_by_role.select { |role, users| role.id.to_s.in?(active_assigner_roles) }.map(&:last).flatten.uniq.map(&:id)
+              principals_by_role.select { |role, users| role.id.to_s.in?(active_assigner_roles) }.map(&:last).flatten.uniq.map(&:id)
           end
 
           def active_assigner_groups

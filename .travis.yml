@@ -2,6 +2,7 @@ language: ruby
 rvm:
   - 2.4.9
   - 2.6.5
+  - 2.7.2
 
 #branches:
 #  only:
@@ -14,6 +15,7 @@ addons:
 env:
   - REDMINE_VER=3.4-stable
   - REDMINE_VER=4.1-stable
+  - REDMINE_VER=5.1-stable
 
 install: "echo skip bundle install"
 

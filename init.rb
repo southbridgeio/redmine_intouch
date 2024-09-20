@@ -2,18 +2,23 @@ require_dependency Rails.root.join('plugins','redmine_bots', 'init')
 
 FileUtils.mkdir_p(Rails.root.join('log/intouch')) unless Dir.exist?(Rails.root.join('log/intouch'))
 
-require 'intouch'
+require './plugins/redmine_intouch/lib/intouch'
 require 'telegram/bot'
 
-# Rails 5.1/Rails 4
-reloader = defined?(ActiveSupport::Reloader) ? ActiveSupport::Reloader : ActionDispatch::Reloader
-reloader.to_prepare do
+register_after_redmine_initialize_proc =
+  if Redmine::VERSION::MAJOR >= 5
+    Rails.application.config.public_method(:after_initialize)
+  else
+    reloader = defined?(ActiveSupport::Reloader) ? ActiveSupport::Reloader : ActionDispatch::Reloader
+    reloader.public_method(:to_prepare)
+  end
+register_after_redmine_initialize_proc.call do
   paths = '/lib/intouch/{patches/*_patch,hooks/*_hook}.rb'
   Dir.glob(File.dirname(__FILE__) + paths).each do |file|
     require_dependency file
   end
 
-  require_dependency 'redmine_bots'
+  require_dependency './plugins/redmine_bots/lib/redmine_bots'
 end
 
 paths = Dir.glob("#{Rails.application.config.root}/plugins/redmine_intouch/{lib,app/workers,app/models,app/controllers}")

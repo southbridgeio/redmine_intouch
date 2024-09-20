@@ -1,3 +1,8 @@
+# 1.6.1
+
+* Change foreign key to issue
+* Add compatibility with Redmine 5.1
+
 # 1.6.0
 
 * Send live notifications for closed issues
