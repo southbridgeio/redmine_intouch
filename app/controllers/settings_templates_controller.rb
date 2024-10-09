@@ -48,7 +48,7 @@ class SettingsTemplatesController < ApplicationController
   def update
     @settings_template = SettingsTemplate.find(params[:id])
     @settings_template.intouch_settings = params[:intouch_settings].to_unsafe_h
-    if @settings_template.update_attributes(settings_template_params)
+    if @settings_template.update_attribute(:name, settings_template_params[:name])
       flash[:notice] = l(:notice_successful_update)
       redirect_to controller: 'settings_templates', action: 'edit', id: @settings_template
     else
