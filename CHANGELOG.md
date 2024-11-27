@@ -1,3 +1,7 @@
+# 1.6.2
+
+* Fix no method error for text class
+
 # 1.6.1
 
 * Change foreign key to issue
