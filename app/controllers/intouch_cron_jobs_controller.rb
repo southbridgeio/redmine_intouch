@@ -1,5 +1,4 @@
 class IntouchCronJobsController < ApplicationController
-  unloadable
 
   layout 'admin'
 

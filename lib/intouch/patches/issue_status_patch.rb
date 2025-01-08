@@ -3,7 +3,6 @@ module Intouch
     module IssueStatusPatch
       def self.included(base) # :nodoc:
         base.class_eval do
-          unloadable
 
           def self.feedback_ids
             settings = Setting.plugin_redmine_intouch

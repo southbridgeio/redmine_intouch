@@ -1,5 +1,4 @@
 class IntouchController < ApplicationController
-  unloadable
 
   before_action :find_project, only: [:save_settings]
 

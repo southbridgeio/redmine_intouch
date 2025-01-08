@@ -3,7 +3,6 @@ module Intouch
     module JournalPatch
       def self.included(base) # :nodoc:
         base.class_eval do
-          unloadable
 
           after_commit :handle_updated_issue, on: :create
 

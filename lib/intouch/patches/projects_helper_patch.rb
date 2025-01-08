@@ -7,7 +7,6 @@ module Intouch
         base.send(:include, MethodsPatch)
 
         base.module_eval do
-          unloadable
 
           alias_method :project_settings_tabs_without_intouch, :project_settings_tabs
           alias_method :project_settings_tabs, :project_settings_tabs_with_intouch
