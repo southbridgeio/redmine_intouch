@@ -3,7 +3,6 @@ module Intouch
     module IssuePriorityPatch
       def self.included(base) # :nodoc:
         base.class_eval do
-          unloadable
 
           def self.alarm_ids
             settings = Setting.plugin_redmine_intouch

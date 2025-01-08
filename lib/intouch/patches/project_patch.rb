@@ -3,7 +3,6 @@ module Intouch
     module ProjectPatch
       def self.included(base) # :nodoc:
         base.class_eval do
-          unloadable
 
           # noinspection RubyArgCount
           store :intouch_settings, accessors: %w[settings_template_id assigner_groups assigner_roles reminder_settings] | Intouch.protocols.keys.map { |p| "#{p}_settings" }

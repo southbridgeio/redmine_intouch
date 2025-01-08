@@ -5,7 +5,6 @@ module Intouch
 
       def self.included(base) # :nodoc:
         base.class_eval do
-          unloadable
 
           # noinspection RubyArgCount
           store :intouch_data, accessors: %w(last_notification)

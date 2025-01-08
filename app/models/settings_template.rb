@@ -1,5 +1,4 @@
 class SettingsTemplate < ActiveRecord::Base
-  unloadable
 
   store :intouch_settings, accessors: %w[assigner_groups assigner_roles reminder_settings] | Intouch.protocols.keys.map { |p| "#{p}_settings" }
 
