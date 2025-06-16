@@ -29,6 +29,8 @@ module Intouch
 
       message += "\n#{Intouch.issue_url(id)}"
 
+      message += "\n#{I18n.t('field_comments')}: #{journal_notes}" if updated_details.include?('notes') && @protocol == 'mattermost'
+
       message
     end
 
@@ -149,6 +151,9 @@ module Intouch
 
       roles_in_issue & recipients & required_recipients
     end
+
+    def journal_notes
+      @journal.notes.gsub(/<.+?>/, '').truncate(255)
+    end
   end
 end
-
