@@ -24,7 +24,7 @@ class Intouch::Protocols::Telegram
 
     def call(action:, bot:)
       chat = TelegramGroupChat.where(tid: action.chat_id.abs).first_or_initialize(title: action.chat_title)
-      chat.save!
+      chat.new_record? ? chat.save! : chat.update!(title: action.chat_title)
       bot.async.send_message(chat_id: action.chat_id, text: I18n.t('intouch.bot.group.update.message'))
     end
   end
