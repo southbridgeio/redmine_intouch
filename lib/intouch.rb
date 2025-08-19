@@ -86,8 +86,8 @@ module Intouch
 
           if active &&
             interval.present? &&
-              Intouch::Regular::Message::Base.new(issue).latest_action_on < interval.to_i.hours.ago &&
-              (last_notification.nil? || last_notification < interval.to_i.hours.ago)
+              Intouch::Regular::Message::Base.new(issue).latest_action_on < interval.to_f.hours.ago &&
+              (last_notification.nil? || last_notification < interval.to_f.hours.ago)
 
             active_protocols.each do |_, protocol|
               protocol.send_regular_notification(issue, state)

@@ -28,7 +28,7 @@
 
           <%= number_field_tag "intouch_settings[reminder_settings][#{priority.id}][interval]",
                                settings_source.reminder_settings.
-                                   try(:[], "#{priority.id}").try(:[], 'interval'), step: 0.1, class: 'hours_input' %>
+                                   try(:[], "#{priority.id}").try(:[], 'interval'), step: 0.01, class: 'hours_input' %>
           <%= label_tag "intouch_settings_reminder_settings_#{priority.id}_interval",t('intouch.project.settings.reminder.intervals.hours_short') %>
         </td>
       </tr>
