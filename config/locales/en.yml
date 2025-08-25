@@ -88,6 +88,10 @@ en:
             hours_short: h.
             notice: Working hours and priorities of urgent issues are specified in <a href="/settings/plugin/redmine_intouch" target="_blank">plugin settings</a>.
             remind_with_interval: Notify <br> at interval
+            minutes: "Minute <br> values"
+            float_values: "Float <br> values"
+            hint_for_minutes_label: Hint for setting intervals
+            hint_for_minutes: For example, for the "Accident" status - 0.16 (10 minutes), for the "High" status - 0.83 (50 minutes), for the "Normal" status - 3.83 (3 hours 50 minutes)
           overdue:
             description_1: Every working day, under schedule specified in <a href="/settings/plugin/redmine_intouch?tab=sidekiq_cron_jobs" target="_blank">plugin settings</a>, the following users will receive the messages about <strong>overdue</strong> issues as well as issues <strong>without a specified due date</strong>.
             description_2: Each recipient will get one letter with a list of issues by e-mail. A series of messages on each issue will be sent in Telegram.
