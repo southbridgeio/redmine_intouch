@@ -27,7 +27,7 @@
   background: none;
 }
 
-.intouch-settings p.description, .tabular.settings p.description {
+.intouch-settings p.description, .tabular.settings p.description, .intouch-settings div.description {
     margin: 10px;
     padding: 0;
 }
@@ -35,12 +35,13 @@
 .intouch-settings h4 {
     margin-top: 15px;
 }
+
 .intouch-settings h5 {
     margin: 0;
 }
 
 .intouch-settings .hours_input, .tabular.settings .hours_input {
-  width: 35px;
+  min-width: 75px;
 }
 
 .half {
