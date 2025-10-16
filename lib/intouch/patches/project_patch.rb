@@ -41,11 +41,7 @@ module Intouch
           end
 
           def title
-            if root?
-              name
-            else
-              "#{parent.name} » #{name}"
-            end
+            name
           end
 
           private
