@@ -1,4 +1,4 @@
-class TelegramGroupChat < ActiveRecord::Base
+class TelegramGroupChat < ApplicationRecord
   def self.find_by_tid(chat_id)
     return nil if chat_id.nil?
     # Telegram group id is always negative

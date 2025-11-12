@@ -1,4 +1,4 @@
-class TelegramUser < ActiveRecord::Base
+class TelegramUser < ApplicationRecord
 
   belongs_to :user
 
