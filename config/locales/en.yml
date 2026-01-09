@@ -102,6 +102,9 @@ en:
           working:
             description: Every working day, during working hours, if the issue has not been updated for a number of hours specified in the general settings and is in the status <strong>In work</strong>, the following users will receive the messages.
             notice: Working days, working hours, status perceived as <strong>In work</strong> are specified in <a href="/settings/plugin/redmine_intouch" target="_blank">plugin settings</a>.
+          sla_alarms:
+            description: Send notifications with Telegram bot about issues without response
+            interval: Notification intervals (min. BEFORE due time)
         settings_no_selected_protocol: Any notification protocol is not selected. Select the desired protocols in <a href="/settings/plugin/redmine_intouch" target="_blank">plugin settings</a>.
         settings_template_edit: Edit current
         settings_template_label: Use the settings from the template
@@ -125,6 +128,7 @@ en:
       title: Status
       unassigned: Unassigned/assigned to the group
       working: In work
+      sla_alarms: SLA Alarams
     settings:
       required: "required for this plugin"
       bot_init: Initialize bot
