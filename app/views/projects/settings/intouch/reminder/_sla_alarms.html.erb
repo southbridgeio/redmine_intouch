@@ -1,0 +1,18 @@
+<div class="box">
+  <p class="description">
+    <%= t('intouch.project.settings.reminder.sla_alarms.description') %><br>
+  </p>
+
+  <div>
+    <%= t('intouch.project.settings.common.copy_settings_from_tab') %>
+    <%= select_tag 'r', options_for_select(%w(working unassigned overdue).collect{ |r| [l("intouch.reminder.#{r}"), r] }) %>
+    <%= button_tag t('intouch.project.settings.common.copy'), class: 'copySettingsFromOtherTab' %>
+  </div>
+  <div>
+    <%= t('intouch.project.settings.reminder.sla_alarms.interval') %>
+    <%= text_field_tag "intouch_settings[sla_alarms][interval]", settings_source.sla_alarms.try(:[], 'interval') %>
+    <em class="info"><%= l(:text_comma_separated) %></em></p>
+  </div>
+  <%= render partial: 'projects/settings/intouch/reminder/common',
+             locals:  { status: 'sla_alarm', settings_source: settings_source } %>
+</div>
