@@ -1,12 +1,12 @@
 class TelegramLiveSenderWorker
   include Sidekiq::Worker
+  include Sidekiq::Throttled::Worker
 
-  sidekiq_options queue: :telegram,
-                  rate: {
-                    name: 'telegram_rate_limit',
-                    limit: 1,
-                    period: 1
-                  }
+  sidekiq_options queue: :telegram
+
+  sidekiq_throttle(
+    threshold: { limit: 1, period: 1.second }
+  )
 
   def perform(issue_id, journal_id, user_id)
     logger.debug "START for issue_id #{issue_id}"

@@ -1,4 +1,4 @@
-class Intouch::TelegramChatSubscription < ActiveRecord::Base
+class Intouch::TelegramChatSubscription < ApplicationRecord
   belongs_to :issue
 
   validates_presence_of :issue_id, :chat_id

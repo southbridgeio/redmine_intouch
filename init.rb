@@ -33,7 +33,7 @@ Redmine::Plugin.register :redmine_intouch do
   name 'Redmine Intouch plugin'
   url 'https://github.com/southbridgeio/redmine_intouch'
   description 'This is a plugin for Redmine which sends a reminder email and Telegram messages to the assignee workign on a task, whose status is not updated with-in allowed duration'
-  version '1.6.0'
+  version '1.7.0'
   author 'Southbridge'
   author_url 'https://github.com/southbridgeio'
 
@@ -54,5 +54,18 @@ Redmine::Plugin.register :redmine_intouch do
     permission :manage_intouch_settings,
       projects: :settings,
       intouch_settings: :save
+  end
+end
+
+# Eager load throttled workers for Sidekiq Web UI
+# Load these workers to register them in Sidekiq::Throttled::Registry
+Rails.application.config.after_initialize do
+  %w[
+    telegram_message_sender
+    telegram_group_message_sender
+    telegram_group_sender_worker
+    telegram_live_sender_worker
+  ].each do |worker|
+    require_dependency worker rescue nil
   end
 end

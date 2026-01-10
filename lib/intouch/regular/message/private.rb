@@ -21,7 +21,7 @@ module Intouch::Regular::Message
       logger.debug user.inspect
       logger.info '========================================='
 
-      TelegramMessageSender.perform_async(telegram_account.telegram_id, message)
+      TelegramMessageSender.perform_async(telegram_account.telegram_id.to_i, message)
     end
 
     def telegram_account

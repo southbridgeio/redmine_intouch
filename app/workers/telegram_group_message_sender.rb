@@ -1,12 +1,12 @@
 class TelegramGroupMessageSender
   include Sidekiq::Worker
+  include Sidekiq::Throttled::Worker
 
-  sidekiq_options queue: :telegram,
-                  rate: {
-                    name: 'telegram_group_rate_limit',
-                    limit: 20,
-                    period: 60
-                  }
+  sidekiq_options queue: :telegram
+
+  sidekiq_throttle(
+    threshold: { limit: 20, period: 60.seconds }
+  )
 
   def perform(chat_id, message, issue_id, journal_id)
     chat = TelegramGroupChat.find_by(id: chat_id) || return
