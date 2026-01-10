@@ -86,7 +86,7 @@ module Intouch
 
       def updated_details_text
         if updated_details.present?
-          (updated_detail - %w(priority status assigned_to)).map do |field|
+          (updated_details - %w(priority status assigned_to)).map do |field|
             if field.is_a? String
               if field == 'attachment'
                 I18n.t('label_attachment')
