@@ -5,7 +5,7 @@ module Intouch
         base.class_eval do
 
           # noinspection RubyArgCount
-          store :intouch_settings, accessors: %w[settings_template_id assigner_groups assigner_roles reminder_settings] | Intouch.protocols.keys.map { |p| "#{p}_settings" }
+          store :intouch_settings, accessors: %w[settings_template_id assigner_groups assigner_roles reminder_settings sla_alarms] | Intouch.protocols.keys.map { |p| "#{p}_settings" }
 
           before_create :copy_settings_from_parent
 
@@ -24,6 +24,10 @@ module Intouch
 
           def active_reminder_settings
             settings_template ? settings_template.reminder_settings : reminder_settings
+          end
+
+          def active_sla_alarms_settings
+            (settings_template ? settings_template.sla_alarms : sla_alarms) || {}
           end
 
           Intouch.protocols.each do |protocol, _|
