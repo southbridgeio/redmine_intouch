@@ -39,7 +39,7 @@ Redmine::Plugin.register :redmine_intouch do
 
   requires_redmine version_or_higher: '3.0'
 
-  requires_redmine_plugin :redmine_bots, '0.5.0'
+  requires_redmine_plugin :redmine_bots, '0.6.0'
 
   settings(
     default: {

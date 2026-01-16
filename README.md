@@ -32,6 +32,10 @@ bundle exec rake redmine:plugins:migrate RAILS_ENV=production
 
 The `extras` folder has the examples of the plugin config files and the `init.d` startup script
 
+### Update to version 1.7.0+
+Starting with version 1.7.0, the `redmine_intouch` plugin uses the `sidekiq-throttled` gem instead of the `sidekiq-rate-limiter` gem.
+You will also need to update the `redmine_bots` plugin to version `0.6.0`.
+
 ## Upgrade from 1.3 to 1.4+
 
 v1.4.0 introduces Redmine 4 support. If you're running Redmine 4, you need to run this task:
