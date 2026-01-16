@@ -1,3 +1,12 @@
+# 1.7.0 
+
+* Add compatibility with Redmine 6.1
+* Add compatibility with 7.x
+* Replace dependency gem 'sidekiq-rate-limiter' to gem 'sidekiq-throttled'
+* The Sidekiq >= 6.5 is required now ( for Sidekiq < 6.5, please use sidekiq-throttled < 1.0)
+* Bump plugin version to 1.7.0
+* Fix tests coverage
+
 # 1.6.2
 
 * Fix no method error for text class

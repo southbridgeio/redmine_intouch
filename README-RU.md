@@ -34,6 +34,10 @@ bundle exec rake redmine:plugins:migrate RAILS_ENV=production
 
 Примеры конфигурационного файла и скрипта для `init.d` находятся в папке `extras`
 
+### Обновление на версию 1.7.0+
+Начиная с версии 1.7.0 плагин `redmine_intouch` вместо gem 'sidekiq-rate-limiter' использует gem 'sidekiq-throttled'.
+Вам потребуется также обновить плагин `redmine_bots` до версии `0.6.0`
+
 ### Обновление с 1.0.2 до 1.1.0+
 
 Начиная с версии 1.1.0 redmine_intouch (так же, как и другие telegram-плагины от Southbridge) использует бота из redmine_telegram_common.

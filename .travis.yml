@@ -3,6 +3,7 @@ rvm:
   - 2.4.9
   - 2.6.5
   - 2.7.2
+  - 3.3.10
 
 #branches:
 #  only:
@@ -10,12 +11,13 @@ rvm:
 #    - develop
 
 addons:
-  postgresql: "9.4"
+  postgresql: "11.22"
 
 env:
   - REDMINE_VER=3.4-stable
   - REDMINE_VER=4.1-stable
   - REDMINE_VER=5.1-stable
+  - REDMINE_VER=6.1-stable
 
 install: "echo skip bundle install"
 

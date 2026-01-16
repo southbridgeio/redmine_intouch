@@ -78,7 +78,7 @@ class Intouch::Preview::HandlerTest < ActiveSupport::TestCase
     Issue.expects(:find_by).with(id: 1).returns(issue)
     Journal.expects(:find_by).with(id: 1).returns(journal)
     TelegramAccount.expects(:find_by).with(telegram_id: telegram_id).returns(telegram_account)
-    Intouch::Preview::Handler::Text.expects(:normalize).with(issue, journal).returns(result_text)
+    Intouch::Preview::Text.expects(:normalize).with(issue, journal).returns(result_text)
     handler = Intouch::Preview::Handler.new(api, update)
     api.expects(:answer_callback_query).with(callback_query_id: query_id, text: result_text, show_alert: true, cache_time: 30)
     handler.call
