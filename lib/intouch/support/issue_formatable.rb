@@ -93,7 +93,7 @@ module Intouch
               else
                 I18n.t(('field_' + field).to_sym)
               end
-            elsif field.is_a? Fixnum
+            elsif field.is_a? Integer
               CustomField.find(field).try(:name)
             end
           end.join(', ')
