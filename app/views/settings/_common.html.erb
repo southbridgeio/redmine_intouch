@@ -55,6 +55,22 @@
     <% end %>
   </ul>
 </div>
+<div class="box tabular settings high">
+  <h4><%= t 'intouch.settings.common.high.title' %></h4>
+  <p class="description">
+    <%= t 'intouch.settings.common.high.description' %>
+  </p>
+  <ul class="inline-checkboxes">
+    <% IssuePriority.find_each do |priority| %>
+      <li>
+        <%= check_box_tag "settings[high_priority_#{priority.id}]", '1',
+                          @settings["high_priority_#{priority.id}"], id: dom_id(priority, 'high') %>
+        <%= label_tag dom_id(priority, 'high'), priority.name %>
+      </li>
+
+    <% end %>
+  </ul>
+</div>
 <% %w(working feedback).each do |notification_group| %>
   <div class="box tabular settings">
     <h4><%= l 'intouch.reminder.title' %> "<%= l "intouch.reminder.#{notification_group}" %>"</h4>

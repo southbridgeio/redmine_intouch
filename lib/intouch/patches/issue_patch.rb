@@ -27,6 +27,23 @@ module Intouch
             IssuePriority.alarm_ids.include? priority_id
           end
 
+          def high_priority?
+            IssuePriority.high_ids.include? priority_id
+          end
+
+          def author_is_client?
+            return false if !author.is_a?(User) || author.anonymous?
+            return false unless defined?(RedmineCentosadmin)
+
+            (author.roles_for_project(project).map(&:id) & RedmineCentosadmin.client_role_ids).any?
+          end
+
+          def client_notification_marker
+            return '' unless author_is_client?
+
+            alarm? || high_priority? ? ' ☎️ 🩸' : ' ☎️'
+          end
+
           def unassigned?
             assigned_to.nil?
           end
@@ -106,9 +123,9 @@ module Intouch
 
           def bold_for_alarm(text, format_strategy: FormatStrategies[:markdown])
             if alarm?
-              "\n#{format_strategy.bold("#{I18n.t('field_priority')}: !!! #{text} !!!")}"
+              "\n#{format_strategy.bold("#{I18n.t('field_priority')}: !!! #{text} !!!")}#{client_notification_marker}"
             else
-              "\n#{I18n.t('field_priority')}: #{text}"
+              "\n#{I18n.t('field_priority')}: #{text}#{client_notification_marker}"
             end
           end
 
