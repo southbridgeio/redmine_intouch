@@ -21,9 +21,9 @@ module Intouch
 
       def priority
         if issue.alarm?
-          format_strategy.bold("#{I18n.t('field_priority')}: !!! #{@priority.name} !!!")
+          "#{format_strategy.bold("#{I18n.t('field_priority')}: !!! #{@priority.name} !!!")}#{issue.client_notification_marker}"
         else
-          "#{I18n.t('field_priority')}: #{@priority.name}"
+          "#{I18n.t('field_priority')}: #{@priority.name}#{issue.client_notification_marker}"
         end
       end
 

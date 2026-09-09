@@ -140,6 +140,9 @@ en:
           description_1: Notification about the issues with the selected priorities will be sent twenty-four seven.
           description_2: Notifications for other priorities will be sent only during working hours.
           title: Urgent issues
+        high:
+          description: Client issues with the selected priorities are additionally marked with icon in notifications.
+          title: High priority
         protocols:
           description: Select the protocols for sending messages that you want to use
         work_time_hint: "The time is entered in the format HH:MM (for example, 8:30)"
