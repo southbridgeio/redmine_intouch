@@ -144,6 +144,16 @@ module Intouch
     work_day? && (from <= Time.now) && (Time.now <= to)
   end
 
+  # redmine_contacts_helpdesk < 4.3 exposes the ticket contact as Issue#customer,
+  # 4.3+ renamed it to Issue#helpdesk_contact
+  def self.helpdesk_contact(issue)
+    if issue.respond_to?(:helpdesk_contact)
+      issue.helpdesk_contact
+    elsif issue.respond_to?(:customer)
+      issue.customer
+    end
+  end
+
   def self.issue_url(issue_id)
     "#{Setting['protocol']}://#{Setting['host_name']}/issues/#{issue_id}"
   end

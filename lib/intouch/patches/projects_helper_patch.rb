@@ -3,34 +3,24 @@ require_dependency 'projects_helper'
 module Intouch
   module Patches
     module ProjectsHelperPatch
-      def self.included(base)
-        base.send(:include, MethodsPatch)
+      def project_settings_tabs
+        tabs = super
 
-        base.module_eval do
+        return tabs unless User.current.allowed_to?(:manage_intouch_settings, @project)
 
-          alias_method :project_settings_tabs_without_intouch, :project_settings_tabs
-          alias_method :project_settings_tabs, :project_settings_tabs_with_intouch
-        end
-      end
+        tabs.push(
+            name: 'intouch_settings',
+            action: :manage_intouch_settings,
+            partial: 'projects/settings/intouch/settings',
+            label: 'intouch.label.settings'
+        )
 
-      module MethodsPatch
-        def project_settings_tabs_with_intouch
-          tabs = project_settings_tabs_without_intouch
-
-          return tabs unless User.current.allowed_to?(:manage_intouch_settings, @project)
-
-          tabs.push(
-              name: 'intouch_settings',
-              action: :manage_intouch_settings,
-              partial: 'projects/settings/intouch/settings',
-              label: 'intouch.label.settings'
-          )
-
-          tabs
-        end
+        tabs
       end
     end
   end
 end
 
-ProjectsHelper.send(:include, Intouch::Patches::ProjectsHelperPatch)
+unless ProjectsHelper.ancestors.include?(Intouch::Patches::ProjectsHelperPatch)
+  ProjectsHelper.prepend(Intouch::Patches::ProjectsHelperPatch)
+end
