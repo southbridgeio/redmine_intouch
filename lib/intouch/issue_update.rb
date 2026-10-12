@@ -46,7 +46,7 @@ module Intouch
       recipients = settings.select { |k, _| %w(author).include? k }
 
       return unless recipients['author'].try(:[], issue.status_id.to_s).try(:include?, issue.priority_id.to_s)
-      issue.customer
+      Intouch.helpdesk_contact(issue)
     end
 
     def need_notification?
