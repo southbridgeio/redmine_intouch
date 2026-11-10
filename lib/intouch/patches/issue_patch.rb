@@ -32,10 +32,9 @@ module Intouch
           end
 
           def author_is_client?
-            return false if !author.is_a?(User) || author.anonymous?
             return false unless defined?(RedmineCentosadmin)
 
-            (author.roles_for_project(project).map(&:id) & RedmineCentosadmin.client_role_ids).any?
+            RedmineCentosadmin.client?(author, project)
           end
 
           def client_notification_marker
