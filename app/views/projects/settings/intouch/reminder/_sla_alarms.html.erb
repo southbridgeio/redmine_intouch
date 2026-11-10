@@ -13,6 +13,10 @@
     <%= text_field_tag "intouch_settings[sla_alarms][interval]", settings_source.sla_alarms.try(:[], 'interval') %>
     <em class="info"><%= l(:text_comma_separated) %></em></p>
   </div>
+  <div>
+    <%= check_box_tag 'intouch_settings[sla_alarms][clients_only]', '1', settings_source.sla_alarms.try(:[], 'clients_only') %>
+    <%= label_tag 'intouch_settings[sla_alarms][clients_only]', t('intouch.project.settings.reminder.sla_alarms.clients_only') %>
+  </div>
   <%= render partial: 'projects/settings/intouch/reminder/common',
              locals:  { status: 'sla_alarm', settings_source: settings_source } %>
 </div>

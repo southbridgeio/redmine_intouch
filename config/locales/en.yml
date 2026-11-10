@@ -105,6 +105,7 @@ en:
           sla_alarms:
             description: Send notifications with Telegram bot about issues without response
             interval: Notification intervals (min. BEFORE due time)
+            clients_only: Notificate only if the last reply is from a client
         settings_no_selected_protocol: Any notification protocol is not selected. Select the desired protocols in <a href="/settings/plugin/redmine_intouch" target="_blank">plugin settings</a>.
         settings_template_edit: Edit current
         settings_template_label: Use the settings from the template
